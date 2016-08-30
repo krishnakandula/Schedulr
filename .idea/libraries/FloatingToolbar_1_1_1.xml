@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="FloatingToolbar-1.1.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.github.rubensousa/FloatingToolbar/1.1.1/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.github.rubensousa/FloatingToolbar/1.1.1/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.rubensousa/FloatingToolbar/1.1.1/53573c603d50b3286e5bc5b031df884430769ab3/FloatingToolbar-1.1.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
