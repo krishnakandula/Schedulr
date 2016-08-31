@@ -19,7 +19,7 @@ import com.github.rubensousa.floatingtoolbar.FloatingToolbar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
+//TODO: Finish implementing adding a class to recycler view
 public class MainActivity extends AppCompatActivity {
 	@BindView(R.id.main_view_pager) ViewPager mViewPager;
 	@BindView(R.id.view_pager_tabs) TabLayout mTabLayout;

@@ -15,6 +15,11 @@ public class Class {
 	private long classNumber;
 	private List<Assignment> assignments;
 
+	public Class(String className, long classNumber){
+		this.primaryId = UUID.randomUUID();
+		this.className = className;
+		this.classNumber = classNumber;
+	}
 	public UUID getPrimaryId() {
 		return primaryId;
 	}
@@ -58,6 +63,4 @@ public class Class {
 	public void setClassNumber(long classNumber) {
 		this.classNumber = classNumber;
 	}
-
-
 }

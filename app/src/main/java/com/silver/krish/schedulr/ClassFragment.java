@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar;
+import com.silver.krish.schedulr.Controllers.ClassController;
+import com.silver.krish.schedulr.Models.Class;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +32,7 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 	@BindView(R.id.main_floating_action_button) FloatingActionButton mFloatingActionButton;
 	private Unbinder mUnbinder;
 	private RecyclerViewAdapter mViewAdapter;
+	private ClassController mClassController;
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,6 +51,8 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 		mFloatingToolbar.attachFab(mFloatingActionButton);
 		mFloatingToolbar.attachRecyclerView(mRecyclerView);
 		mFloatingToolbar.setClickListener(this);
+
+		mClassController = ClassController.getClassController();
 		return view;
 	}
 
@@ -88,8 +93,8 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 		int itemId = item.getItemId();
 		switch (itemId){
 			case R.id.main_floating_toolbar_add_class:
-				Toast toast = Toast.makeText(getContext(), "Add class clicked", Toast.LENGTH_SHORT);
-				toast.show();
+				Class newClass = new Class("Math", 123);
+				mClassController.addClass(newClass);
 				break;
 			default:
 		}
