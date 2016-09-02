@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +27,7 @@ import butterknife.Unbinder;
 /**
  * Created by Krishna Kandula on 8/27/2016.
  */
-public class ClassFragment extends Fragment implements FloatingToolbar.ItemClickListener{
+public class ClassFragment extends Fragment implements FloatingToolbar.ItemClickListener, SwipeRefreshLayout.OnRefreshListener{
 	@BindView(R.id.classes_recycler_view) RecyclerView mRecyclerView;
 	@BindView(R.id.main_floating_toolbar) FloatingToolbar mFloatingToolbar;
 	@BindView(R.id.main_floating_action_button) FloatingActionButton mFloatingActionButton;
@@ -95,6 +96,8 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 			case R.id.main_floating_toolbar_add_class:
 				Class newClass = new Class("Math", 123);
 				mClassController.addClass(newClass);
+				//Update the UI
+				onRefresh();
 				break;
 			default:
 		}
@@ -102,6 +105,19 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 
 	@Override
 	public void onItemLongClick(MenuItem item) {
+		//TODO: ADd something here
+	}
 
+	@Override
+	public void onRefresh() {
+		//TODO: updateUI
+		mViewAdapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		//Unbind toolbar to prevent memory leaks
+		mUnbinder.unbind();
 	}
 }
