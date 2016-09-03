@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,6 +37,7 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 	@BindView(R.id.main_floating_action_button) FloatingActionButton mFloatingActionButton;
 	@BindView(R.id.class_fragment_swipe_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
 	private static final String LOG_TAG = ClassFragment.class.getSimpleName();
+	private static final int ADD_CLASS_REQUEST_CODE = 0;
 	private Unbinder mUnbinder;
 	private RecyclerViewAdapter mViewAdapter;
 	private ClassController mClassController;
@@ -106,11 +108,10 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 		int itemId = item.getItemId();
 		switch (itemId){
 			case R.id.main_floating_toolbar_add_class:
-				Class newClass = new Class("Math", 123);
-				mClassController.addClass(newClass);
-				//Update the UI
-				onRefresh();
-				mFloatingToolbar.show();
+				FragmentManager fm = getActivity().getSupportFragmentManager();
+				AddClassFragment addClassFragment = AddClassFragment.newInstance();
+				addClassFragment.setTargetFragment(ClassFragment.this, ADD_CLASS_REQUEST_CODE);
+				fm.beginTransaction().replace(R.id.main_activity_container, addClassFragment).addToBackStack(null).commit();
 				break;
 			default:
 		}
@@ -131,6 +132,12 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 		mViewAdapter.updateClassList(updatedList);
 		mViewAdapter.notifyDataSetChanged();
 		mSwipeRefreshLayout.setRefreshing(false);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		Log.v(LOG_TAG, "onResume called");
 	}
 
 	@Override

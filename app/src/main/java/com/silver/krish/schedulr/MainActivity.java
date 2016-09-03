@@ -21,52 +21,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 //TODO: Finish implementing adding a class to recycler view
 public class MainActivity extends AppCompatActivity {
-	@BindView(R.id.main_view_pager) ViewPager mViewPager;
-	@BindView(R.id.view_pager_tabs) TabLayout mTabLayout;
-	private ViewPagerAdapter mPagerAdapter;
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		ButterKnife.bind(this);
-		mPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-		mViewPager.setAdapter(mPagerAdapter);
-		mTabLayout.setupWithViewPager(mViewPager, true);
-		setTabLayoutText();
 
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		return super.onOptionsItemSelected(item);
-	}
-
-	public class ViewPagerAdapter extends FragmentPagerAdapter{
-		public static final int numberOfPages = 3;
-		public ViewPagerAdapter(FragmentManager fm){
-			super(fm);
-		}
-
-		@Override
-		public Fragment getItem(int position) {
-			return new ClassFragment();
-		}
-
-		@Override
-		public int getCount() {
-			return numberOfPages;
-		}
-	}
-
-	//TODO: Change this method to actual text later
-	private void setTabLayoutText(){
-		for(int i = 0; i < 3; i++){
-			mTabLayout.getTabAt(i).setText(String.format("%d", i + 1));
-		}
+		FragmentManager fm = getSupportFragmentManager();
+		MainFragment fragment = new MainFragment();
+		fm.beginTransaction().add(R.id.main_activity_container, fragment).commit();
 	}
 }
