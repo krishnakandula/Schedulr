@@ -45,4 +45,8 @@ public class ClassController {
 			return unique;
 		}
 	}
+
+	public List<Class> getClassList(){
+		return classList;
+	}
 }

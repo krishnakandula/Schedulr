@@ -1,7 +1,6 @@
 package com.silver.krish.schedulr;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +19,9 @@ import android.widget.Toast;
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar;
 import com.silver.krish.schedulr.Controllers.ClassController;
 import com.silver.krish.schedulr.Models.Class;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,33 +34,38 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 	@BindView(R.id.classes_recycler_view) RecyclerView mRecyclerView;
 	@BindView(R.id.main_floating_toolbar) FloatingToolbar mFloatingToolbar;
 	@BindView(R.id.main_floating_action_button) FloatingActionButton mFloatingActionButton;
+	@BindView(R.id.class_fragment_swipe_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
+	private static final String LOG_TAG = ClassFragment.class.getSimpleName();
 	private Unbinder mUnbinder;
 	private RecyclerViewAdapter mViewAdapter;
 	private ClassController mClassController;
 	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mClassController = ClassController.getClassController();
 	}
 
-	@Nullable
 	@Override
-	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.classes_fragment, container, false);
 		mUnbinder = ButterKnife.bind(this, view);
-		mViewAdapter = new RecyclerViewAdapter();
 		mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-		mRecyclerView.setAdapter(mViewAdapter);
-
+		onRefresh();
+		mSwipeRefreshLayout.setOnRefreshListener(this);
 		//Setup floating toolbar
 		mFloatingToolbar.attachFab(mFloatingActionButton);
 		mFloatingToolbar.attachRecyclerView(mRecyclerView);
 		mFloatingToolbar.setClickListener(this);
 
-		mClassController = ClassController.getClassController();
 		return view;
 	}
 
 	public class RecyclerViewAdapter extends RecyclerView.Adapter<ClassViewHolder>{
+		private List<Class> mClassList;
+
+		public RecyclerViewAdapter(List<Class> classes){
+			updateClassList(classes);
+		}
 
 		@Override
 		public ClassViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -68,12 +76,16 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 
 		@Override
 		public void onBindViewHolder(ClassViewHolder holder, int position) {
-			holder.bindView();
+			holder.bindView(mClassList.get(position));
 		}
 
 		@Override
 		public int getItemCount() {
-			return 30;
+			return mClassList.size();
+		}
+
+		public void updateClassList(List<Class> updatedClassList){
+			mClassList = updatedClassList;
 		}
 	}
 
@@ -84,8 +96,8 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 			ButterKnife.bind(this, itemView);
 		}
 
-		public void bindView(){
-			titleView.setText("test");
+		public void bindView(Class newClass){
+			titleView.setText(newClass.getClassName());
 		}
 	}
 
@@ -98,6 +110,7 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 				mClassController.addClass(newClass);
 				//Update the UI
 				onRefresh();
+				mFloatingToolbar.show();
 				break;
 			default:
 		}
@@ -105,13 +118,19 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 
 	@Override
 	public void onItemLongClick(MenuItem item) {
-		//TODO: ADd something here
+		//TODO: Add something here
 	}
 
 	@Override
 	public void onRefresh() {
-		//TODO: updateUI
+		List<Class> updatedList = mClassController.getClassList();
+		if(mViewAdapter == null){
+			mViewAdapter = new RecyclerViewAdapter(updatedList);
+			mRecyclerView.setAdapter(mViewAdapter);
+		}
+		mViewAdapter.updateClassList(updatedList);
 		mViewAdapter.notifyDataSetChanged();
+		mSwipeRefreshLayout.setRefreshing(false);
 	}
 
 	@Override
