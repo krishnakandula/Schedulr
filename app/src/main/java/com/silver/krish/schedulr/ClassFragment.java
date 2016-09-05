@@ -1,5 +1,7 @@
 package com.silver.krish.schedulr;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -52,13 +54,12 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 		View view = inflater.inflate(R.layout.classes_fragment, container, false);
 		mUnbinder = ButterKnife.bind(this, view);
 		mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-		onRefresh();
 		mSwipeRefreshLayout.setOnRefreshListener(this);
+		onRefresh();
 		//Setup floating toolbar
 		mFloatingToolbar.attachFab(mFloatingActionButton);
 		mFloatingToolbar.attachRecyclerView(mRecyclerView);
 		mFloatingToolbar.setClickListener(this);
-
 		return view;
 	}
 
@@ -92,14 +93,20 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 	}
 
 	public class ClassViewHolder extends RecyclerView.ViewHolder{
-		@BindView(R.id.class_item_view_title) TextView titleView;
+		@BindView(R.id.class_item_view_title) TextView mTitleView;
+		@BindView(R.id.class_item_class_number_text_view) TextView  mClassNumberTextView;
+		@BindView(R.id.class_item_subject_text_view) TextView mSubjectTextView;
+		@BindView(R.id.class_item_teacher_text_view) TextView mTeacherTextView;
 		public ClassViewHolder(View itemView){
 			super(itemView);
 			ButterKnife.bind(this, itemView);
 		}
 
 		public void bindView(Class newClass){
-			titleView.setText(newClass.getClassName());
+			mTitleView.setText(newClass.getClassName());
+			mClassNumberTextView.setText(String.format("%d", newClass.getClassNumber()));
+			mSubjectTextView.setText(newClass.getSubject());
+			mTeacherTextView.setText(newClass.getTeacher());
 		}
 	}
 
@@ -119,16 +126,16 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 
 	@Override
 	public void onItemLongClick(MenuItem item) {
-		//TODO: Add something here
 	}
 
 	@Override
 	public void onRefresh() {
+		mSwipeRefreshLayout.setRefreshing(true);
 		List<Class> updatedList = mClassController.getClassList();
 		if(mViewAdapter == null){
 			mViewAdapter = new RecyclerViewAdapter(updatedList);
-			mRecyclerView.setAdapter(mViewAdapter);
 		}
+		mRecyclerView.setAdapter(mViewAdapter);
 		mViewAdapter.updateClassList(updatedList);
 		mViewAdapter.notifyDataSetChanged();
 		mSwipeRefreshLayout.setRefreshing(false);
@@ -137,6 +144,7 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 	@Override
 	public void onResume() {
 		super.onResume();
+		onRefresh();
 		Log.v(LOG_TAG, "onResume called");
 	}
 
@@ -145,5 +153,29 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 		super.onDestroy();
 		//Unbind toolbar to prevent memory leaks
 		mUnbinder.unbind();
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(resultCode != Activity.RESULT_OK){
+			Log.e(LOG_TAG, "resultCode is not okay");
+		} else {
+			switch (requestCode){
+				//New class added, so refresh
+				case ADD_CLASS_REQUEST_CODE:
+					//Pop back stack to go back to this fragment
+					String className = data.getStringExtra(AddClassFragment.CLASS_NAME_KEY);
+					long classNumber = data.getLongExtra(AddClassFragment.CLASS_NUM_KEY, 0);
+					String teacherName = data.getStringExtra(AddClassFragment.TEACHER_NAME_KEY);
+					String subject = data.getStringExtra(AddClassFragment.SUBJECT_NAME_KEY);
+					Class newClass = new Class(className, classNumber);
+					newClass.setSubject(subject);
+					newClass.setTeacher(teacherName);
+					mClassController.addClass(newClass);
+					onRefresh();
+					break;
+			}
+		}
 	}
 }

@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TableLayout;
@@ -19,13 +20,14 @@ import com.github.rubensousa.floatingtoolbar.FloatingToolbar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-//TODO: Finish implementing adding a class to recycler view
 public class MainActivity extends AppCompatActivity {
+	@BindView(R.id.main_activity_toolbar) Toolbar mToolbar;
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		ButterKnife.bind(this);
+		setSupportActionBar(mToolbar);
 		FragmentManager fm = getSupportFragmentManager();
 		MainFragment fragment = new MainFragment();
 		fm.beginTransaction().add(R.id.main_activity_container, fragment).commit();
