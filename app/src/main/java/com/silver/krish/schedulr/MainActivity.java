@@ -20,6 +20,9 @@ import com.github.rubensousa.floatingtoolbar.FloatingToolbar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 public class MainActivity extends AppCompatActivity {
 	@BindView(R.id.main_activity_toolbar) Toolbar mToolbar;
 	@Override
@@ -28,6 +31,11 @@ public class MainActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_main);
 		ButterKnife.bind(this);
 		setSupportActionBar(mToolbar);
+
+		//Create default Realm instance
+		RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this).build();
+		Realm.setDefaultConfiguration(realmConfiguration);
+
 		FragmentManager fm = getSupportFragmentManager();
 		MainFragment fragment = new MainFragment();
 		fm.beginTransaction().add(R.id.main_activity_container, fragment).commit();

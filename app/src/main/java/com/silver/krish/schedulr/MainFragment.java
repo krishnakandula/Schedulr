@@ -45,7 +45,7 @@ public class MainFragment extends Fragment{
 	}
 
 	public class ViewPagerAdapter extends FragmentPagerAdapter {
-		public static final int numberOfPages = 3;
+		public static final int numberOfPages = 2;
 		public ViewPagerAdapter(FragmentManager fm){
 			super(fm);
 		}
@@ -53,9 +53,8 @@ public class MainFragment extends Fragment{
 		@Override
 		public Fragment getItem(int position) {
 			switch (position){
-				case 0: return new ViewPagerPlaceHolderFragment();
-				case 1: return new ClassFragment();
-				case 2: return new ViewPagerPlaceHolderFragment();
+				case 0: return new ClassFragment();
+				case 1: return new ViewPagerPlaceHolderFragment();
 				default: return null;
 			}
 		}
@@ -68,8 +67,14 @@ public class MainFragment extends Fragment{
 
 	//TODO: Change this method to actual text later
 	private void setTabLayoutText(){
-		for(int i = 0; i < 3; i++){
-			mTabLayout.getTabAt(i).setText(String.format("%d", i + 1));
-		}
+		mTabLayout.getTabAt(0).setText("Classes");
+		mTabLayout.getTabAt(1).setText("Tasks");
+
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		mUnbinder.unbind();
 	}
 }

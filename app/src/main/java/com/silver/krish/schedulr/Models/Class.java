@@ -3,25 +3,27 @@ package com.silver.krish.schedulr.Models;
 import java.util.List;
 import java.util.UUID;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by Krishna Kandula on 8/28/2016.
  */
-public class Class {
-	private UUID primaryId;
+public class Class extends RealmObject{
+	@PrimaryKey
+	private long classId;
 	private String className;
 	private String subject;
-	private long classId;
 	private String teacher;
 	private long classNumber;
-	private List<Assignment> assignments;
+//	private List<Assignment> assignments;
 
-	public Class(String className, long classNumber){
-		this.primaryId = UUID.randomUUID();
+	public Class(){}
+
+	public Class(String className, long classNumber, long classId){
 		this.className = className;
 		this.classNumber = classNumber;
-	}
-	public UUID getPrimaryId() {
-		return primaryId;
+		this.classId = classId;
 	}
 
 	public String getClassName() {

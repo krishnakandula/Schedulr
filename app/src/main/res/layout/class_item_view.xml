@@ -42,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/class_item_view_title"
                 android:text="TEACHER"
+                android:layout_marginBottom="10dp"
                 />
         </RelativeLayout>
     </android.support.v7.widget.CardView>

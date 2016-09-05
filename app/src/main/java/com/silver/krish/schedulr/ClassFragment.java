@@ -25,10 +25,12 @@ import com.silver.krish.schedulr.Models.Class;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.realm.Realm;
 
 /**
  * Created by Krishna Kandula on 8/27/2016.
@@ -43,10 +45,12 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 	private Unbinder mUnbinder;
 	private RecyclerViewAdapter mViewAdapter;
 	private ClassController mClassController;
+	private Realm mRealm;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mClassController = ClassController.getClassController();
+		mRealm = Realm.getDefaultInstance();
 	}
 
 	@Override
@@ -131,6 +135,7 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 	@Override
 	public void onRefresh() {
 		mSwipeRefreshLayout.setRefreshing(true);
+		mClassController.updateClassList();
 		List<Class> updatedList = mClassController.getClassList();
 		if(mViewAdapter == null){
 			mViewAdapter = new RecyclerViewAdapter(updatedList);
@@ -153,6 +158,7 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 		super.onDestroy();
 		//Unbind toolbar to prevent memory leaks
 		mUnbinder.unbind();
+		mRealm.close();
 	}
 
 	@Override
@@ -169,10 +175,15 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 					long classNumber = data.getLongExtra(AddClassFragment.CLASS_NUM_KEY, 0);
 					String teacherName = data.getStringExtra(AddClassFragment.TEACHER_NAME_KEY);
 					String subject = data.getStringExtra(AddClassFragment.SUBJECT_NAME_KEY);
-					Class newClass = new Class(className, classNumber);
+					mRealm.beginTransaction();
+					Class newClass = mRealm.createObject(Class.class);
+					newClass.setClassId(new Random().nextInt());
+					newClass.setClassName(className);
+					newClass.setClassNumber(classNumber);
 					newClass.setSubject(subject);
 					newClass.setTeacher(teacherName);
 					mClassController.addClass(newClass);
+					mRealm.commitTransaction();
 					onRefresh();
 					break;
 			}
