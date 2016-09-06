@@ -1,5 +1,7 @@
 package com.silver.krish.schedulr;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -41,6 +43,8 @@ public class MainFragment extends Fragment{
 		mTabLayout.setupWithViewPager(mViewPager, true);
 		setTabLayoutText();
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
+		mTabLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+		//TODO: Fix tab layout text colors
 		return view;
 	}
 

@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,11 +37,10 @@ import io.realm.Realm;
 /**
  * Created by Krishna Kandula on 8/27/2016.
  */
-public class ClassFragment extends Fragment implements FloatingToolbar.ItemClickListener, SwipeRefreshLayout.OnRefreshListener{
+public class ClassFragment extends Fragment implements FloatingToolbar.ItemClickListener{
 	@BindView(R.id.classes_recycler_view) RecyclerView mRecyclerView;
 	@BindView(R.id.main_floating_toolbar) FloatingToolbar mFloatingToolbar;
 	@BindView(R.id.main_floating_action_button) FloatingActionButton mFloatingActionButton;
-	@BindView(R.id.class_fragment_swipe_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
 	private static final String LOG_TAG = ClassFragment.class.getSimpleName();
 	private static final int ADD_CLASS_REQUEST_CODE = 0;
 	private Unbinder mUnbinder;
@@ -58,7 +59,7 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 		View view = inflater.inflate(R.layout.classes_fragment, container, false);
 		mUnbinder = ButterKnife.bind(this, view);
 		mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-		mSwipeRefreshLayout.setOnRefreshListener(this);
+//		mSwipeRefreshLayout.setOnRefreshListener(this);
 		onRefresh();
 		//Setup floating toolbar
 		mFloatingToolbar.attachFab(mFloatingActionButton);
@@ -96,7 +97,7 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 		}
 	}
 
-	public class ClassViewHolder extends RecyclerView.ViewHolder{
+	public class ClassViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 		@BindView(R.id.class_item_view_title) TextView mTitleView;
 		@BindView(R.id.class_item_class_number_text_view) TextView  mClassNumberTextView;
 		@BindView(R.id.class_item_subject_text_view) TextView mSubjectTextView;
@@ -104,6 +105,7 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 		public ClassViewHolder(View itemView){
 			super(itemView);
 			ButterKnife.bind(this, itemView);
+			itemView.setOnClickListener(this);
 		}
 
 		public void bindView(Class newClass){
@@ -111,6 +113,12 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 			mClassNumberTextView.setText(String.format("%d", newClass.getClassNumber()));
 			mSubjectTextView.setText(newClass.getSubject());
 			mTeacherTextView.setText(newClass.getTeacher());
+		}
+
+		@Override
+		public void onClick(View v) {
+			Snackbar snackbar = Snackbar.make(getView().findViewById(R.id.class_fragment_coordinator_layout), "itemView onClick pressed", Snackbar.LENGTH_SHORT);
+			snackbar.show();
 		}
 	}
 
@@ -122,7 +130,11 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 				FragmentManager fm = getActivity().getSupportFragmentManager();
 				AddClassFragment addClassFragment = AddClassFragment.newInstance();
 				addClassFragment.setTargetFragment(ClassFragment.this, ADD_CLASS_REQUEST_CODE);
-				fm.beginTransaction().replace(R.id.main_activity_container, addClassFragment).addToBackStack(null).commit();
+				fm.beginTransaction()
+						.replace(R.id.main_activity_container, addClassFragment)
+						.addToBackStack(null)
+						.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+						.commit();
 				break;
 			default:
 		}
@@ -132,9 +144,7 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 	public void onItemLongClick(MenuItem item) {
 	}
 
-	@Override
 	public void onRefresh() {
-		mSwipeRefreshLayout.setRefreshing(true);
 		mClassController.updateClassList();
 		List<Class> updatedList = mClassController.getClassList();
 		if(mViewAdapter == null){
@@ -143,7 +153,6 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 		mRecyclerView.setAdapter(mViewAdapter);
 		mViewAdapter.updateClassList(updatedList);
 		mViewAdapter.notifyDataSetChanged();
-		mSwipeRefreshLayout.setRefreshing(false);
 	}
 
 	@Override
