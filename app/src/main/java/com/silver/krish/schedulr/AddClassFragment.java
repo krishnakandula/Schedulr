@@ -71,16 +71,26 @@ public class AddClassFragment extends Fragment{
 
 	@OnClick(R.id.add_class_fragment_floating_action_button)
 	public void onClickFloatingActionButton(){
-		//TODO: Check to see if any of the inputs fields are null
 		String className = mClassNameEditText.getText().toString();
+		if(className.isEmpty()){
+			createErrorSnackBar("Please enter a class name");
+			return;
+		}
+		String subjectName = mSubjectEditText.getText().toString();
+		if(subjectName.isEmpty()){
+			createErrorSnackBar("Please enter the subject name");
+			return;
+		}
 		if(mClassNumEditText.getText().toString().isEmpty()){
-			Snackbar snackbar = Snackbar.make(getView().findViewById(R.id.add_class_fragment_coordinator_layout), "Please enter a class number", Snackbar.LENGTH_LONG);
-			snackbar.show();
+			createErrorSnackBar("Please enter a class number");
 			return;
 		}
 		long classNumber = Long.parseLong(mClassNumEditText.getText().toString());
 		String teacherName = mTeacherEditText.getText().toString();
-		String subjectName = mSubjectEditText.getText().toString();
+		if(teacherName.isEmpty()){
+			createErrorSnackBar("Please enter the teacher's name");
+			return;
+		}
 		Intent intent = new Intent();
 		intent.putExtra(CLASS_NAME_KEY, className);
 		intent.putExtra(CLASS_NUM_KEY, classNumber);
@@ -94,5 +104,15 @@ public class AddClassFragment extends Fragment{
 		super.onDestroyView();
 		//Nullify view references
 		mUnbinder.unbind();
+	}
+
+	/**
+	 * <h1>createErrorSnackBar</h1>
+	 * Used as a template to create error message for input validation
+	 * @param message that will be displayed in SnackBar
+	 */
+	private void createErrorSnackBar(String message){
+		Snackbar snackbar = Snackbar.make(getView().findViewById(R.id.add_class_fragment_coordinator_layout), message, Snackbar.LENGTH_LONG);
+		snackbar.show();
 	}
 }
