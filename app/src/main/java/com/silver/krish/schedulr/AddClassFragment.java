@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -72,6 +73,11 @@ public class AddClassFragment extends Fragment{
 	public void onClickFloatingActionButton(){
 		//TODO: Check to see if any of the inputs fields are null
 		String className = mClassNameEditText.getText().toString();
+		if(mClassNumEditText.getText().toString().isEmpty()){
+			Snackbar snackbar = Snackbar.make(getView().findViewById(R.id.add_class_fragment_coordinator_layout), "Please enter a class number", Snackbar.LENGTH_LONG);
+			snackbar.show();
+			return;
+		}
 		long classNumber = Long.parseLong(mClassNumEditText.getText().toString());
 		String teacherName = mTeacherEditText.getText().toString();
 		String subjectName = mSubjectEditText.getText().toString();
