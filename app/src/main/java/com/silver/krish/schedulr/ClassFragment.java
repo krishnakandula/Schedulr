@@ -3,6 +3,7 @@ package com.silver.krish.schedulr;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -21,6 +22,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar;
 import com.silver.krish.schedulr.Controllers.ClassController;
 import com.silver.krish.schedulr.Models.Class;
@@ -124,15 +127,22 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 
 		@Override
 		public boolean onLongClick(View v) {
-			//Open up snackbar
-			Snackbar snackbar = Snackbar.make(getView().findViewById(R.id.class_fragment_coordinator_layout), "itemView onLongClick pressed", Snackbar.LENGTH_SHORT);
-			snackbar.setAction("Edit", new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Toast toast = Toast.makeText(getContext(), "Edit", Toast.LENGTH_SHORT);
-					toast.show();
-				}
-			}).show();
+			//Open up ClassOptionsDialog
+			final MaterialDialog classOptionsDialog = new MaterialDialog.Builder(getContext())
+					.title("Edit").content(mSubjectTextView.getText() + " " + mClassNumberTextView.getText())
+					.positiveText("Edit")
+					.negativeText("Cancel")
+					.onPositive(new MaterialDialog.SingleButtonCallback() {
+						@Override
+						public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+							//Open edit view
+						}
+					}).onNegative(new MaterialDialog.SingleButtonCallback() {
+						@Override
+						public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+							dialog.dismiss();
+						}
+					}).show();
 			return true;
 		}
 	}
@@ -157,6 +167,7 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 
 	@Override
 	public void onItemLongClick(MenuItem item) {
+
 	}
 
 	public void onRefresh() {

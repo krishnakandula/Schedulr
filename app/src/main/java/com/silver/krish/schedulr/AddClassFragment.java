@@ -32,6 +32,7 @@ public class AddClassFragment extends Fragment{
 	@BindView(R.id.add_class_fragment_teacher_edit_text) EditText mTeacherEditText;
 
 	private Unbinder mUnbinder;
+
 	public static final String CLASS_NAME_KEY = "CLASS_NAME";
 	public static final String CLASS_NUM_KEY = "CLASS_NUM";
 	public static final String TEACHER_NAME_KEY = "TEACHER_NAME";
