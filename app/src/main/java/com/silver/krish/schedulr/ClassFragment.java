@@ -97,7 +97,7 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 		}
 	}
 
-	public class ClassViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+	public class ClassViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
 		@BindView(R.id.class_item_view_title) TextView mTitleView;
 		@BindView(R.id.class_item_class_number_text_view) TextView  mClassNumberTextView;
 		@BindView(R.id.class_item_subject_text_view) TextView mSubjectTextView;
@@ -106,6 +106,7 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 			super(itemView);
 			ButterKnife.bind(this, itemView);
 			itemView.setOnClickListener(this);
+			itemView.setOnLongClickListener(this);
 		}
 
 		public void bindView(Class newClass){
@@ -119,6 +120,20 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 		public void onClick(View v) {
 			Snackbar snackbar = Snackbar.make(getView().findViewById(R.id.class_fragment_coordinator_layout), "itemView onClick pressed", Snackbar.LENGTH_SHORT);
 			snackbar.show();
+		}
+
+		@Override
+		public boolean onLongClick(View v) {
+			//Open up snackbar
+			Snackbar snackbar = Snackbar.make(getView().findViewById(R.id.class_fragment_coordinator_layout), "itemView onLongClick pressed", Snackbar.LENGTH_SHORT);
+			snackbar.setAction("Edit", new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Toast toast = Toast.makeText(getContext(), "Edit", Toast.LENGTH_SHORT);
+					toast.show();
+				}
+			}).show();
+			return true;
 		}
 	}
 
