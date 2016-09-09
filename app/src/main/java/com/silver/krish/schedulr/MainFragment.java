@@ -3,7 +3,6 @@ package com.silver.krish.schedulr;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -28,13 +27,12 @@ public class MainFragment extends Fragment{
 	private ViewPagerAdapter mPagerAdapter;
 
 	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	}
 
-	@Nullable
 	@Override
-	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_main, container, false);
 		mUnbinder = ButterKnife.bind(this, view);
 		mPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
@@ -43,7 +41,7 @@ public class MainFragment extends Fragment{
 		mTabLayout.setupWithViewPager(mViewPager, true);
 		setTabLayoutText();
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
-		mTabLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+//		mTabLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
 		//TODO: Fix tab layout text colors
 		return view;
 	}
@@ -69,10 +67,10 @@ public class MainFragment extends Fragment{
 		}
 	}
 
-	//TODO: Change this method to actual text later
 	private void setTabLayoutText(){
 		mTabLayout.getTabAt(0).setText("Classes");
 		mTabLayout.getTabAt(1).setText("Tasks");
+		mTabLayout.setTabTextColors(R.color.white, R.color.white);
 
 	}
 

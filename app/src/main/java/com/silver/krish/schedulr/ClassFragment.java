@@ -3,7 +3,6 @@ package com.silver.krish.schedulr;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -46,6 +45,8 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 	@BindView(R.id.main_floating_action_button) FloatingActionButton mFloatingActionButton;
 	private static final String LOG_TAG = ClassFragment.class.getSimpleName();
 	private static final int ADD_CLASS_REQUEST_CODE = 0;
+	private static final int EDIT_CLASS_REQUEST_CODE = 1;
+	public static final String EDIT_CLASS_ID_KEY = "edit_class_id_key";
 	private Unbinder mUnbinder;
 	private RecyclerViewAdapter mViewAdapter;
 	private ClassController mClassController;
@@ -105,6 +106,7 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 		@BindView(R.id.class_item_class_number_text_view) TextView  mClassNumberTextView;
 		@BindView(R.id.class_item_subject_text_view) TextView mSubjectTextView;
 		@BindView(R.id.class_item_teacher_text_view) TextView mTeacherTextView;
+		private Class c;
 		public ClassViewHolder(View itemView){
 			super(itemView);
 			ButterKnife.bind(this, itemView);
@@ -113,6 +115,7 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 		}
 
 		public void bindView(Class newClass){
+			this.c = newClass;
 			mTitleView.setText(newClass.getClassName());
 			mClassNumberTextView.setText(String.format("%d", newClass.getClassNumber()));
 			mSubjectTextView.setText(newClass.getSubject());
@@ -121,8 +124,10 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 
 		@Override
 		public void onClick(View v) {
-			Snackbar snackbar = Snackbar.make(getView().findViewById(R.id.class_fragment_coordinator_layout), "itemView onClick pressed", Snackbar.LENGTH_SHORT);
-			snackbar.show();
+			//Open detail activity
+			Intent intent = new Intent(getContext(), ClassDetailActivity.class);
+			intent.putExtra(EDIT_CLASS_ID_KEY, c.getClassId());
+			getActivity().startActivityForResult(intent, EDIT_CLASS_REQUEST_CODE);
 		}
 
 		@Override
@@ -134,12 +139,12 @@ public class ClassFragment extends Fragment implements FloatingToolbar.ItemClick
 					.negativeText("Cancel")
 					.onPositive(new MaterialDialog.SingleButtonCallback() {
 						@Override
-						public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+						public void onClick(MaterialDialog dialog, DialogAction which) {
 							//Open edit view
 						}
 					}).onNegative(new MaterialDialog.SingleButtonCallback() {
 						@Override
-						public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+						public void onClick(MaterialDialog dialog, DialogAction which) {
 							dialog.dismiss();
 						}
 					}).show();

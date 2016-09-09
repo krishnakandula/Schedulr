@@ -3,7 +3,6 @@ package com.silver.krish.schedulr;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -24,6 +23,7 @@ import butterknife.Unbinder;
 /**
  * Created by Krishna Kandula on 9/3/2016.
  */
+//TODO:CHANGE THIS TO AN ACTIVITY
 public class AddClassFragment extends Fragment{
 	@BindView(R.id.add_class_fragment_floating_action_button) FloatingActionButton mFloatingActionButton;
 	@BindView(R.id.add_class_fragment_class_name_edit_text) EditText mClassNameEditText;
@@ -48,13 +48,12 @@ public class AddClassFragment extends Fragment{
 	}
 
 	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	}
 
-	@Nullable
 	@Override
-	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_add_class, container, false);
 		mUnbinder = ButterKnife.bind(this, view);
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.add_class_toolbar_title));

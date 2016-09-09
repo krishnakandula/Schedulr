@@ -19,7 +19,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:text="SUBJECT"
-                android:textSize="25dp"
+                android:textSize="20dp"
                 style="@style/TextAppearance.AppCompat.Title"
                 />
             <TextView
@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/class_item_subject_text_view"
-                android:textSize="25dp"
+                android:textSize="20dp"
                 android:layout_marginLeft="5dp"
                 android:text="CLASS_NUMBER"
                 style="@style/TextAppearance.AppCompat.Title"/>
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/class_item_class_number_text_view"
                 android:text="CLASS_NAME"
-                android:textSize="20dp"/>
+                android:textSize="15dp"/>
             <TextView
                 android:id="@+id/class_item_teacher_text_view"
                 android:layout_width="wrap_content"
