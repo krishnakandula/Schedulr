@@ -2,6 +2,7 @@ package com.silver.krish.schedulr.Controllers;
 
 import android.util.Log;
 
+import com.silver.krish.schedulr.Fragments.ClassFragment;
 import com.silver.krish.schedulr.Models.Class;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class ClassController {
 	private static List<Class> classList;
 	private ClassController(){
 		classList = new ArrayList<>();
+		updateClassList();
 	}
 
 	public static ClassController getClassController(){
@@ -46,12 +48,21 @@ public class ClassController {
 					unique = false;
 				}
 			}
-			if(unique)
-				classList.add(newClass);
+			if(unique) {
+				//Add to Realm db
+				Realm mRealm = Realm.getDefaultInstance();
 
+				mRealm.beginTransaction();
+				Class c = mRealm.copyToRealm(newClass);
+				mRealm.commitTransaction();
+
+				classList.add(newClass);
+			}
 			return unique;
 		}
 	}
+
+
 
 	public void updateClassList(){
 		Realm realm = Realm.getDefaultInstance();

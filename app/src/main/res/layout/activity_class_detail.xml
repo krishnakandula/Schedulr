@@ -20,7 +20,9 @@
                     android:id="@+id/class_activity_detail_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    app:layout_scrollFlags="scroll|enterAlways"></android.support.v7.widget.Toolbar>
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    style="@style/ActionBarStyle"
+                    ></android.support.v7.widget.Toolbar>
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
         <android.support.v4.widget.NestedScrollView

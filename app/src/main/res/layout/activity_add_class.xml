@@ -7,7 +7,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/add_class_fragment_coordinator_layout">
+        android:id="@+id/add_class_activity_coordinator_layout">
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="200dp">
@@ -54,7 +54,7 @@
                                 android:paddingStart="3dp"
                                 android:typeface="sans"/>
                             <EditText
-                                android:id="@+id/add_class_fragment_class_name_edit_text"
+                                android:id="@+id/add_class_activity_class_name_edit_text"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="70"
@@ -72,7 +72,7 @@
                                 android:paddingStart="3dp"
                                 android:typeface="sans"/>
                             <EditText
-                                android:id="@+id/add_class_fragment_subject_edit_text"
+                                android:id="@+id/add_class_activity_subject_edit_text"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="40"
@@ -86,7 +86,7 @@
                                 android:gravity="center_vertical"
                                 android:paddingStart="3dp"/>
                             <EditText
-                                android:id="@+id/add_class_fragment_class_num_edit_text"
+                                android:id="@+id/add_class_activity_class_num_edit_text"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="25"
@@ -102,7 +102,7 @@
                                  android:paddingStart="3dp"
                                  android:typeface="sans"/>
                              <EditText
-                                 android:id="@+id/add_class_fragment_teacher_edit_text"
+                                 android:id="@+id/add_class_activity_teacher_edit_text"
                                  android:layout_width="0dp"
                                  android:layout_height="wrap_content"
                                  android:layout_weight="90"
@@ -113,7 +113,7 @@
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/add_class_fragment_floating_action_button"
+            android:id="@+id/add_class_activity_floating_action_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
