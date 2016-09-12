@@ -1,11 +1,14 @@
 package com.silver.krish.schedulr.Fragments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -40,6 +43,17 @@ public class ClassFragment extends Fragment {
 
 	private Unbinder mUnbinder;
 	private Realm mRealm;
+
+	private static boolean classItemViewIsSelected;
+	private static Class classItemSelected;
+	OnClassItemSelectedListener mClassItemSelectedListener;
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mClassItemSelectedListener = (OnClassItemSelectedListener)activity;
+	}
+
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -92,6 +106,7 @@ public class ClassFragment extends Fragment {
 		@BindView(R.id.class_item_class_number_text_view) TextView  mClassNumberTextView;
 		@BindView(R.id.class_item_subject_text_view) TextView mSubjectTextView;
 		@BindView(R.id.class_item_teacher_text_view) TextView mTeacherTextView;
+		@BindView(R.id.class_item_card_view) CardView mCardView;
 
 		private Class c;
 		private int position;
@@ -113,15 +128,36 @@ public class ClassFragment extends Fragment {
 
 		@Override
 		public void onClick(View v) {
-			Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.activity_main_coordinator_layout), "CLICK", Snackbar.LENGTH_LONG);
-			snackbar.show();
+			if(mCardView.isSelected()){
+				mCardView.setSelected(false);
+				mCardView.setBackgroundResource(R.color.default_color);
+				classItemViewIsSelected = false;
+				mClassItemSelectedListener.onClassItemSelected(false);
+			} else {
+				//TODO:Open class detail activity
+			}
 		}
 
 		@Override
 		public boolean onLongClick(View v) {
-			v.setSelected(true);
-			return true;
+			if(!classItemViewIsSelected){
+				mCardView.setSelected(true);
+				classItemViewIsSelected = true;
+				mCardView.setBackgroundResource(R.color.cardview_shadow_start_color);
+				//Set public variable equal to class so Main Activity can call detail activity
+				classItemSelected = ClassController.getClassController()
+						.getClass((String)mSubjectTextView.getText(), Long.parseLong((String)mClassNumberTextView.getText()));
+				//Call callback method in main activity
+				mClassItemSelectedListener.onClassItemSelected(true);
+				return true;
+			} else {
+				return false;
+			}
 		}
+	}
+
+	public interface OnClassItemSelectedListener{
+		void onClassItemSelected(boolean isSelected);
 	}
 
 	private void setupClassRecyclerView(){
@@ -135,15 +171,19 @@ public class ClassFragment extends Fragment {
 		mRecyclerViewAdapter.notifyDataSetChanged();
 	}
 
+
+	public Class getClassItemSelected(){
+		return classItemSelected;
+	}
+
+	public boolean getClassItemViewIsSelected(){
+		return classItemViewIsSelected;
+	}
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		mRealm.close();
 		mUnbinder.unbind();
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
 	}
 }

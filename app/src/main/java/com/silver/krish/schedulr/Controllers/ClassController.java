@@ -18,6 +18,7 @@ public class ClassController {
 	private static final String LOG_TAG = ClassController.class.getSimpleName();
 	private static ClassController singletonClassController;
 	private static List<Class> classList;
+	private Realm mRealm;
 	private ClassController(){
 		classList = new ArrayList<>();
 		updateClassList();
@@ -27,7 +28,6 @@ public class ClassController {
 		if(singletonClassController == null){
 			singletonClassController = new ClassController();
 		}
-
 		return singletonClassController;
 	}
 
@@ -37,6 +37,7 @@ public class ClassController {
 	 * @return whether or not the class was added
 	 */
 	public boolean addClass(Class newClass){
+		mRealm = Realm.getDefaultInstance();
 		if(classList.isEmpty()){
 			classList.add(newClass);
 			return true;
@@ -50,8 +51,6 @@ public class ClassController {
 			}
 			if(unique) {
 				//Add to Realm db
-				Realm mRealm = Realm.getDefaultInstance();
-
 				mRealm.beginTransaction();
 				Class c = mRealm.copyToRealm(newClass);
 				mRealm.commitTransaction();
@@ -62,11 +61,19 @@ public class ClassController {
 		}
 	}
 
+	public Class getClass(String subject, long classNumber){
+		mRealm = Realm.getDefaultInstance();
+		RealmResults<Class> realmResults = mRealm.where(Class.class)
+				.equalTo("subject", subject)
+				.equalTo("classNumber", classNumber)
+				.findAll();
 
+		return realmResults.get(0);
+	}
 
 	public void updateClassList(){
-		Realm realm = Realm.getDefaultInstance();
-		RealmResults<Class> updatedClasses = realm.where(Class.class).findAll();
+		mRealm = Realm.getDefaultInstance();
+		RealmResults<Class> updatedClasses = mRealm.where(Class.class).findAll();
 		if(updatedClasses.size() == 0){
 			Log.v(LOG_TAG, "Class table was empty");
 		} else {
@@ -75,7 +82,6 @@ public class ClassController {
 				addClass(c);
 			}
 		}
-		realm.close();
 	}
 
 	public List<Class> getClassList(){

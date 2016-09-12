@@ -19,10 +19,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TableLayout;
+import android.widget.Toast;
 
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar;
 import com.silver.krish.schedulr.Fragments.AssignmentsFragment;
 import com.silver.krish.schedulr.Fragments.ClassFragment;
+import com.silver.krish.schedulr.Models.Class;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,13 +33,14 @@ import butterknife.Unbinder;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements ClassFragment.OnClassItemSelectedListener{
 	@BindView(R.id.main_activity_toolbar) Toolbar mToolbar;
 	@BindView(R.id.main_view_pager) ViewPager mViewPager;
 	@BindView(R.id.view_pager_tabs) TabLayout mTabLayout;
 	@BindView(R.id.main_floating_action_button) FloatingActionButton mFloatingActionButton;
 
 	private Unbinder mUnbinder;
+	private ClassFragment mClassFragment;
 	private static final int CLASS_LIST_PAGE_POSITION = 0;
 	private static final int ASSIGNMENT_LIST_PAGE_POSITION = 1;
 	private static final int NUMBER_OF_PAGES = 2;
@@ -114,8 +117,16 @@ public class MainActivity extends AppCompatActivity{
 	public void onClickFloatingActionButton(View v) {
 		switch(currentViewPage){
 			case CLASS_LIST_PAGE_POSITION:
-				Intent intent = new Intent(this, AddClassActivity.class);
-				startActivity(intent);
+				ClassFragment classFragment = (ClassFragment)mPagerAdapter.getItem(CLASS_LIST_PAGE_POSITION);
+				if(classFragment.getClassItemViewIsSelected()){
+					Toast toast = Toast.makeText(this, classFragment.getClassItemSelected().getClassName(), Toast.LENGTH_LONG);
+					toast.show();
+				} else{
+					//TODO
+//					Intent intent = new Intent(this, AddClassActivity.class);
+//				    startActivity(intent);
+				}
+
 				break;
 			case ASSIGNMENT_LIST_PAGE_POSITION:
 				Snackbar s = Snackbar.make(findViewById(R.id.activity_main_coordinator_layout), "TASK", Snackbar.LENGTH_SHORT);
@@ -127,8 +138,20 @@ public class MainActivity extends AppCompatActivity{
 	}
 
 	@Override
+	public void onClassItemSelected(boolean isSelected) {
+		//TODO: Change this so that edit is not overwritten if even one changes
+		if(isSelected) {
+			//Change FAB to edit
+			mFloatingActionButton.setImageResource(R.drawable.ic_action_edit);
+		} else {
+			mFloatingActionButton.setImageResource(R.drawable.ic_action_add);
+		}
+	}
+
+	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		mUnbinder.unbind();
+		Realm.getDefaultInstance().close();
 	}
 }
