@@ -1,5 +1,7 @@
 package com.silver.krish.schedulr;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
@@ -41,9 +43,12 @@ public class MainActivity extends AppCompatActivity implements ClassFragment.OnC
 
 	private Unbinder mUnbinder;
 	private ClassFragment mClassFragment;
+
+	//TODO: Change usage of constants so Constants class is used
 	private static final int CLASS_LIST_PAGE_POSITION = 0;
 	private static final int ASSIGNMENT_LIST_PAGE_POSITION = 1;
 	private static final int NUMBER_OF_PAGES = 2;
+	private static final String EDIT_CLASS_KEY = "EDIT_CLASS";
 	private int currentViewPage = 0;
 
 	private ViewPagerAdapter mPagerAdapter;
@@ -119,18 +124,21 @@ public class MainActivity extends AppCompatActivity implements ClassFragment.OnC
 			case CLASS_LIST_PAGE_POSITION:
 				ClassFragment classFragment = (ClassFragment)mPagerAdapter.getItem(CLASS_LIST_PAGE_POSITION);
 				if(classFragment.getClassItemViewIsSelected()){
-					Toast toast = Toast.makeText(this, classFragment.getClassItemSelected().getClassName(), Toast.LENGTH_LONG);
-					toast.show();
+					//ClassItemViews are long selected
+					//Open EditClassActivity
+					Class selectedClass = classFragment.getClassItemSelected();
+					Intent intent = new Intent(this, EditClassActivity.class);
+					intent.putExtra(Constants.getEditClassSubjectKey(), selectedClass.getSubject());
+					intent.putExtra(Constants.getEditClassNumberKey(), selectedClass.getClassNumber());
+					startActivityForResult(intent, Constants.getEditClassIntentRequestCode());
 				} else{
-					//TODO
-//					Intent intent = new Intent(this, AddClassActivity.class);
-//				    startActivity(intent);
+					Intent intent = new Intent(this, AddClassActivity.class);
+				    startActivity(intent);
 				}
 
 				break;
 			case ASSIGNMENT_LIST_PAGE_POSITION:
-				Snackbar s = Snackbar.make(findViewById(R.id.activity_main_coordinator_layout), "TASK", Snackbar.LENGTH_SHORT);
-				s.show();
+				makeSnackbar("TASK", Snackbar.LENGTH_SHORT);
 				break;
 			default:
 				break;
@@ -153,5 +161,29 @@ public class MainActivity extends AppCompatActivity implements ClassFragment.OnC
 		super.onDestroy();
 		mUnbinder.unbind();
 		Realm.getDefaultInstance().close();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == Constants.getEditClassIntentRequestCode()) {
+			if(resultCode == Activity.RESULT_OK){
+				String subject = data.getStringExtra(Constants.getEditClassSubjectKey());
+				long number = data.getLongExtra(Constants.getEditClassNumberKey(), 0);
+				String message = String.format("%s %d was deleted", subject, number);
+				makeSnackbar(message, Snackbar.LENGTH_LONG);
+
+				//Set classItemViewIsSelected in ClassFragment to null
+				ClassFragment fragment = (ClassFragment) mPagerAdapter.getItem(CLASS_LIST_PAGE_POSITION);
+				fragment.setClassItemSelected(null);
+				fragment.setClassItemViewIsSelected(false);
+				onClassItemSelected(false);
+			}
+		}
+	}
+
+	private void makeSnackbar(String message, int length){
+		Snackbar s = Snackbar.make(findViewById(R.id.activity_main_coordinator_layout), message, length);
+		s.show();
 	}
 }

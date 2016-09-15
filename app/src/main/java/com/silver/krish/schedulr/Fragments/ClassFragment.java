@@ -180,6 +180,14 @@ public class ClassFragment extends Fragment {
 		return classItemViewIsSelected;
 	}
 
+	public static void setClassItemViewIsSelected(boolean classItemViewIsSelected) {
+		ClassFragment.classItemViewIsSelected = classItemViewIsSelected;
+	}
+
+	public static void setClassItemSelected(Class classItemSelected) {
+		ClassFragment.classItemSelected = classItemSelected;
+	}
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();

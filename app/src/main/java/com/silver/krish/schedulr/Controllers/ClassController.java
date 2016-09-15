@@ -39,6 +39,7 @@ public class ClassController {
 	public boolean addClass(Class newClass){
 		mRealm = Realm.getDefaultInstance();
 		if(classList.isEmpty()){
+			addClassToRealm(newClass);
 			classList.add(newClass);
 			return true;
 		} else {
@@ -51,14 +52,17 @@ public class ClassController {
 			}
 			if(unique) {
 				//Add to Realm db
-				mRealm.beginTransaction();
-				Class c = mRealm.copyToRealm(newClass);
-				mRealm.commitTransaction();
-
+				addClassToRealm(newClass);
 				classList.add(newClass);
 			}
 			return unique;
 		}
+	}
+
+	private void addClassToRealm(Class newClass){
+		mRealm.beginTransaction();
+		Class c = mRealm.copyToRealm(newClass);
+		mRealm.commitTransaction();
 	}
 
 	public Class getClass(String subject, long classNumber){
@@ -75,12 +79,29 @@ public class ClassController {
 		mRealm = Realm.getDefaultInstance();
 		RealmResults<Class> updatedClasses = mRealm.where(Class.class).findAll();
 		if(updatedClasses.size() == 0){
+			classList.clear();
 			Log.v(LOG_TAG, "Class table was empty");
 		} else {
 			classList.clear();
 			for(Class c : updatedClasses){
 				addClass(c);
 			}
+		}
+	}
+
+	public boolean deleteClass(String subject, long classNumber){
+		mRealm.beginTransaction();
+		RealmResults<Class> results = mRealm.where(Class.class)
+				.equalTo("subject", subject)
+				.equalTo("classNumber", classNumber)
+				.findAll();
+
+		if (results.size() > 0){
+			results.deleteAllFromRealm();
+			mRealm.commitTransaction();
+			return true;
+		} else {
+			return false;
 		}
 	}
 

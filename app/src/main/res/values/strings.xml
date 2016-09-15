@@ -3,4 +3,7 @@
 
     <!-- AddClassFragment-->
     <string name="add_class_toolbar_title">New class</string>
+
+    <!--menu_edit_class-->
+    <string name="menu_edit_class_delete">Delete</string>
 </resources>
