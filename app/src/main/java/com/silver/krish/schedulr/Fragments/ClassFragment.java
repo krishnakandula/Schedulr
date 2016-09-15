@@ -144,9 +144,11 @@ public class ClassFragment extends Fragment {
 				mCardView.setSelected(true);
 				classItemViewIsSelected = true;
 				mCardView.setBackgroundResource(R.color.cardview_shadow_start_color);
+
 				//Set public variable equal to class so Main Activity can call detail activity
 				classItemSelected = ClassController.getClassController()
 						.getClass((String)mSubjectTextView.getText(), Long.parseLong((String)mClassNumberTextView.getText()));
+
 				//Call callback method in main activity
 				mClassItemSelectedListener.onClassItemSelected(true);
 				return true;
@@ -180,11 +182,11 @@ public class ClassFragment extends Fragment {
 		return classItemViewIsSelected;
 	}
 
-	public static void setClassItemViewIsSelected(boolean classItemViewIsSelected) {
+	public void setClassItemViewIsSelected(boolean classItemViewIsSelected) {
 		ClassFragment.classItemViewIsSelected = classItemViewIsSelected;
 	}
 
-	public static void setClassItemSelected(Class classItemSelected) {
+	public void setClassItemSelected(Class classItemSelected) {
 		ClassFragment.classItemSelected = classItemSelected;
 	}
 
