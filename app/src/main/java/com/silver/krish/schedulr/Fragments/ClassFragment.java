@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,10 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.silver.krish.schedulr.Controllers.AssignmentController;
 import com.silver.krish.schedulr.Controllers.ClassController;
 import com.silver.krish.schedulr.MainActivity;
+import com.silver.krish.schedulr.Models.Assignment;
 import com.silver.krish.schedulr.Models.Class;
 import com.silver.krish.schedulr.R;
 import java.util.List;
@@ -40,12 +43,13 @@ public class ClassFragment extends Fragment {
 	@BindView(R.id.classes_recycler_view) RecyclerView mRecyclerView;
 
 	private RecyclerViewAdapter mRecyclerViewAdapter;
-
+	private LinearLayoutManager mLinearLayoutManager;
 	private Unbinder mUnbinder;
 	private Realm mRealm;
-
+	private static final String LOG_TAG = ClassFragment.class.getSimpleName();
 	private static boolean classItemViewIsSelected;
 	private static Class classItemSelected;
+	private static Integer classItemSelectedPosition;
 	OnClassItemSelectedListener mClassItemSelectedListener;
 
 	@Override
@@ -74,7 +78,9 @@ public class ClassFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		//Refresh list whenever class fragment is shown
+		Log.v(LOG_TAG, "onResume called");
 		refreshClassList();
+		AssignmentController.getAssignmentController().updateAssignmentList();
 	}
 
 	public class RecyclerViewAdapter extends RecyclerView.Adapter<ClassViewHolder>{
@@ -124,12 +130,16 @@ public class ClassFragment extends Fragment {
 			mClassNumberTextView.setText(String.format("%d", c.getClassNumber()));
 			mSubjectTextView.setText(c.getSubject());
 			mTeacherTextView.setText(c.getTeacher());
+			if(classItemViewIsSelected){
+				mCardView.setBackgroundResource(R.color.cardview_shadow_start_color);
+			} else {
+				mCardView.setBackgroundResource(R.color.default_color);
+			}
 		}
 
 		@Override
 		public void onClick(View v) {
-			if(mCardView.isSelected()){
-				mCardView.setSelected(false);
+			if(classItemViewIsSelected && position == classItemSelectedPosition){
 				mCardView.setBackgroundResource(R.color.default_color);
 				classItemViewIsSelected = false;
 				mClassItemSelectedListener.onClassItemSelected(false);
@@ -141,10 +151,10 @@ public class ClassFragment extends Fragment {
 		@Override
 		public boolean onLongClick(View v) {
 			if(!classItemViewIsSelected){
-				mCardView.setSelected(true);
 				classItemViewIsSelected = true;
 				mCardView.setBackgroundResource(R.color.cardview_shadow_start_color);
-
+				position = mLinearLayoutManager.getPosition(itemView);
+				classItemSelectedPosition = position;
 				//Set public variable equal to class so Main Activity can call detail activity
 				classItemSelected = ClassController.getClassController()
 						.getClass((String)mSubjectTextView.getText(), Long.parseLong((String)mClassNumberTextView.getText()));
@@ -164,7 +174,8 @@ public class ClassFragment extends Fragment {
 
 	private void setupClassRecyclerView(){
 		mRecyclerViewAdapter = new RecyclerViewAdapter();
-		mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+		mLinearLayoutManager = new LinearLayoutManager(getContext());
+		mRecyclerView.setLayoutManager(mLinearLayoutManager);
 		mRecyclerView.setAdapter(mRecyclerViewAdapter);
 	}
 

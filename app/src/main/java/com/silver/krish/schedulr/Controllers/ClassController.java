@@ -3,6 +3,7 @@ package com.silver.krish.schedulr.Controllers;
 import android.util.Log;
 
 import com.silver.krish.schedulr.Fragments.ClassFragment;
+import com.silver.krish.schedulr.Models.Assignment;
 import com.silver.krish.schedulr.Models.Class;
 
 import java.util.ArrayList;
@@ -43,13 +44,8 @@ public class ClassController {
 			classList.add(newClass);
 			return true;
 		} else {
-			boolean unique = true;
 			//Check if the primary id of newClass is unique
-			for(Class c : classList){
-				if(newClass.getClassId() == c.getClassId()){
-					unique = false;
-				}
-			}
+			boolean unique = classIsUnique(newClass);
 			if(unique) {
 				//Add to Realm db
 				addClassToRealm(newClass);
@@ -57,6 +53,15 @@ public class ClassController {
 			}
 			return unique;
 		}
+	}
+
+	public boolean classIsUnique(Class newClass){
+		for(Class c : classList){
+			if((newClass.getSubject() .equals(c.getSubject())) && newClass.getClassNumber() == c.getClassNumber()){
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private void addClassToRealm(Class newClass){
@@ -108,5 +113,4 @@ public class ClassController {
 	public List<Class> getClassList(){
 		return classList;
 	}
-
 }

@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.silver.krish.schedulr.Adapters.TasksAdapter;
+import com.silver.krish.schedulr.Constants;
 import com.silver.krish.schedulr.R;
 
 import butterknife.BindView;
@@ -21,8 +24,7 @@ public class AssignmentsFragment extends Fragment {
 	@BindView(R.id.assignment_recycler_view) RecyclerView assignmentRecyclerView;
 
 	private Unbinder mUnbinder;
-	private AssignmentsViewAdapter mViewAdapter;
-
+	private TasksAdapter mTasksAdapter;
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -33,34 +35,16 @@ public class AssignmentsFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_assignments, container, false);
 		mUnbinder = ButterKnife.bind(this, view);
+		setupAssignmentsRecyclerView();
+
 		return view;
 	}
 
-	public class AssignmentsViewAdapter extends RecyclerView.Adapter<AssignmentViewHolder>{
-		@Override
-		public AssignmentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-			return null;
-		}
-
-		@Override
-		public void onBindViewHolder(AssignmentViewHolder holder, int position) {
-
-		}
-
-		@Override
-		public int getItemCount() {
-			return 0;
-		}
-	}
-
-	public class AssignmentViewHolder extends RecyclerView.ViewHolder{
-		public AssignmentViewHolder(View itemView) {
-			super(itemView);
-		}
-	}
-
 	private void setupAssignmentsRecyclerView(){
-//		assignmentRecyclerView.setLayoutManager();
+		assignmentRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(Constants.getAssignmentGridLayoutColumns(),
+				StaggeredGridLayoutManager.VERTICAL));
+		mTasksAdapter = new TasksAdapter();
+		assignmentRecyclerView.setAdapter(mTasksAdapter);
 	}
 
 	@Override

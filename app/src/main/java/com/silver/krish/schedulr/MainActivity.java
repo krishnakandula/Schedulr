@@ -17,6 +17,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements ClassFragment.OnC
 
 	private Unbinder mUnbinder;
 	private ClassFragment mClassFragment;
+	private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
 	//TODO: Change usage of constants so Constants class is used
 	private static final int CLASS_LIST_PAGE_POSITION = 0;
