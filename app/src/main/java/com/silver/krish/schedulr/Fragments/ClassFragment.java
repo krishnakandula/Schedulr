@@ -80,7 +80,6 @@ public class ClassFragment extends Fragment {
 		//Refresh list whenever class fragment is shown
 		Log.v(LOG_TAG, "onResume called");
 		refreshClassList();
-		AssignmentController.getAssignmentController().updateAssignmentList();
 	}
 
 	public class RecyclerViewAdapter extends RecyclerView.Adapter<ClassViewHolder>{

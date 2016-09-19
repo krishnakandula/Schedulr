@@ -40,10 +40,16 @@ public class AssignmentsFragment extends Fragment {
 		return view;
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		//refresh assignment list
+	}
+
 	private void setupAssignmentsRecyclerView(){
 		assignmentRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(Constants.getAssignmentGridLayoutColumns(),
 				StaggeredGridLayoutManager.VERTICAL));
-		mTasksAdapter = new TasksAdapter();
+		mTasksAdapter = new TasksAdapter(getContext());
 		assignmentRecyclerView.setAdapter(mTasksAdapter);
 	}
 
@@ -52,4 +58,6 @@ public class AssignmentsFragment extends Fragment {
 		super.onDestroy();
 		mUnbinder.unbind();
 	}
+
+
 }

@@ -8,7 +8,7 @@
     android:minHeight="?attr/listPreferredItemHeight"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:layout_margin="8dp">
+    android:layout_margin="@dimen/material_component_grid_lists_padding_big">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

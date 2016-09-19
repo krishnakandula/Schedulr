@@ -1,7 +1,6 @@
 package com.silver.krish.schedulr;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
@@ -11,20 +10,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.TableLayout;
-import android.widget.Toast;
 
-import com.github.rubensousa.floatingtoolbar.FloatingToolbar;
 import com.silver.krish.schedulr.Fragments.AssignmentsFragment;
 import com.silver.krish.schedulr.Fragments.ClassFragment;
 import com.silver.krish.schedulr.Models.Class;
@@ -110,10 +101,13 @@ public class MainActivity extends AppCompatActivity implements ClassFragment.OnC
 					case CLASS_LIST_PAGE_POSITION:
 						mFloatingActionButton.show();
 						currentViewPage = 0;
+						onClassItemSelected(isClassesFabEditIconShown());
 						break;
 					case ASSIGNMENT_LIST_PAGE_POSITION:
 						mFloatingActionButton.show();
 						currentViewPage = 1;
+						//If fab edit icon is shown, change it to add icon
+						onClassItemSelected(false);
 						break;
 				}
 			}
@@ -124,8 +118,8 @@ public class MainActivity extends AppCompatActivity implements ClassFragment.OnC
 	public void onClickFloatingActionButton(View v) {
 		switch(currentViewPage){
 			case CLASS_LIST_PAGE_POSITION:
-				ClassFragment classFragment = (ClassFragment)mPagerAdapter.getItem(CLASS_LIST_PAGE_POSITION);
-				if(classFragment.getClassItemViewIsSelected()){
+				if(isClassesFabEditIconShown()){
+					ClassFragment classFragment = (ClassFragment)mPagerAdapter.getItem(CLASS_LIST_PAGE_POSITION);
 					//ClassItemViews are long selected
 					//Open EditClassActivity
 					Class selectedClass = classFragment.getClassItemSelected();
@@ -140,7 +134,9 @@ public class MainActivity extends AppCompatActivity implements ClassFragment.OnC
 
 				break;
 			case ASSIGNMENT_LIST_PAGE_POSITION:
-				makeSnackbar("TASK", Snackbar.LENGTH_SHORT);
+				//Start AddAssignmentActivity
+				Intent intent = new Intent(this, AddAssignmentActivity.class);
+				startActivity(intent);
 				break;
 			default:
 				break;
@@ -187,5 +183,10 @@ public class MainActivity extends AppCompatActivity implements ClassFragment.OnC
 	private void makeSnackbar(String message, int length){
 		Snackbar s = Snackbar.make(findViewById(R.id.activity_main_coordinator_layout), message, length);
 		s.show();
+	}
+
+	private boolean isClassesFabEditIconShown(){
+		ClassFragment classFragment = (ClassFragment)mPagerAdapter.getItem(CLASS_LIST_PAGE_POSITION);
+		return classFragment.getClassItemViewIsSelected();
 	}
 }

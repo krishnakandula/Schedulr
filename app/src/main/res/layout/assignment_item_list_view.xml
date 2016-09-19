@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="?attr/listPreferredItemHeight"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:layout_margin="@dimen/material_component_grid_lists_padding_big">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:text="TITLE"
+            android:id="@+id/assignment_list_view_title"
+            style="@style/GridLayoutItemView"
+            android:gravity="center_vertical"></TextView>
+            android:textSize="@dimen/grid_item_title_text_size"/>
+        <TextView
+            android:text="DUE_DATE"
+            android:id="@+id/assignment_list_view_due_date"
+            android:layout_below="@id/assignment_list_view_title"
+            style="@style/GridLayoutItemView"/>
+        <TextView
+            android:text="DESCRIPTION"
+            android:id="@+id/assignment_list_view_description"
+            android:layout_below="@id/assignment_list_view_due_date"
+            style="@style/GridLayoutItemView"
+            android:layout_marginBottom="@dimen/material_component_cards_supporting_text_top_padding"/>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

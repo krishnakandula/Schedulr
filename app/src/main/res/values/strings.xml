@@ -6,4 +6,9 @@
 
     <!--menu_edit_class-->
     <string name="menu_edit_class_delete">Delete</string>
+
+    <!--fragment_add_assignment-->
+    <string name="assignment_name_hint">Name</string>
+    <string name="assignment_description_hint">Description</string>
+    <string name="assignment_due_date">Due Date?</string>
 </resources>

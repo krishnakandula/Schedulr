@@ -15,6 +15,7 @@ public class Assignment extends RealmObject{
 	private Date assignedDate;
 	private String subject;
 	private String classNumber;
+	private String description;
 	private boolean isCompleted;
 	@PrimaryKey
 	private long assignmentId;
@@ -74,5 +75,13 @@ public class Assignment extends RealmObject{
 	@Override
 	public String toString() {
 		return assignmentName;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

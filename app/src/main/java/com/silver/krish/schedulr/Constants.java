@@ -10,7 +10,7 @@ public class Constants {
 	private static final String EDIT_CLASS_SUBJECT_KEY = "EDIT_CLASS_SUBJECT";
 	private static final String EDIT_CLASS_NUMBER_KEY = "EDIT_CLASS_NUMBER_KEY";
 	private static final int EDIT_CLASS_INTENT_REQUEST_CODE = 3;
-	private static final int ASSIGNMENT_GRID_LAYOUT_COLUMNS = 3;
+	private static final int ASSIGNMENT_GRID_LAYOUT_COLUMNS = 2;
 
 	public static int getEditClassIntentRequestCode() {
 		return EDIT_CLASS_INTENT_REQUEST_CODE;

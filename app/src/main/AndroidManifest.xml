@@ -27,6 +27,11 @@
         </activity>
         <activity android:name=".ClassDetailActivity">
         </activity>
+        <activity android:name=".AssignmentDetailActivity">
+        </activity>
+        <activity android:name=".AddAssignmentActivity"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
     </application>
 
 </manifest>
