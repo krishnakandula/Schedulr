@@ -58,7 +58,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="70"
-                                android:inputType="textAutoComplete|textAutoCorrect"/>
+                                android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"/>
                         </LinearLayout>
                         <LinearLayout
                             style="@style/add_class_linear_layout_item">
@@ -117,8 +117,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
-            android:layout_marginBottom="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginBottom="@dimen/fab_labels_margin"
+            android:layout_marginRight="@dimen/fab_labels_margin"
             android:src="@drawable/ic_action_checkmark"
             />
     </android.support.design.widget.CoordinatorLayout>

@@ -1,9 +1,14 @@
 package com.silver.krish.schedulr.Fragments;
 
+import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
@@ -16,11 +21,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.silver.krish.schedulr.Controllers.ClassController;
 import com.silver.krish.schedulr.Models.Class;
 import com.silver.krish.schedulr.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,8 +45,11 @@ public class AddAssignmentFragment extends Fragment{
 	@BindView(R.id.fragment_add_assignment_due_date_button) Button dueDateButton;
 	@BindView(R.id.fragment_add_assignment_name_edit_text) EditText nameEditText;
 	@BindView(R.id.fragment_add_assignment_description_edit_text) EditText descriptionEditText;
+	@BindView(R.id.fragment_add_assignment_fab) FloatingActionButton fab;
 
 	private Unbinder mUnbinder;
+	private static final int DATE_PICKER_FRAGMENT_REQUEST_CODE = 1;
+	private static final String DATE_PICKER_FRAGMENT_TAG = "DATE_PICKER_DIALOG";
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,6 +63,7 @@ public class AddAssignmentFragment extends Fragment{
 		mUnbinder = ButterKnife.bind(this, view);
 		setupPrioritySpinner();
 		setupClassSpinner();
+		setupDueDateButton();
 		return view;
 	}
 
@@ -61,6 +73,16 @@ public class AddAssignmentFragment extends Fragment{
 				android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		prioritySpinner.setAdapter(adapter);
+	}
+
+	private void setupDueDateButton(){
+		//Have button display current date
+		Calendar c = Calendar.getInstance();
+		int year = c.get(Calendar.YEAR);
+		int month = c.get(Calendar.MONTH);
+		int day = c.get(Calendar.DAY_OF_MONTH);
+		StringBuilder dateString= new StringBuilder("").append(month + "/").append(day + "/").append(year);
+		dueDateButton.setText(dateString.toString());
 	}
 
 	private void setupClassSpinner(){
@@ -77,6 +99,40 @@ public class AddAssignmentFragment extends Fragment{
 				classDescriptions);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		classesSpinner.setAdapter(adapter);
+	}
+
+	@OnClick(R.id.fragment_add_assignment_due_date_button)
+	public void onClickDueDateButton(){
+		DialogFragment fragment = new DatePickerFragment();
+		fragment.setTargetFragment(this, DATE_PICKER_FRAGMENT_REQUEST_CODE);
+		fragment.setCancelable(true);
+		fragment.show(getChildFragmentManager(), DATE_PICKER_FRAGMENT_TAG);
+	}
+
+	@OnClick(R.id.fragment_add_assignment_fab)
+	public void onClickFab(){
+		//TODO: Add implementation for add assignment FAB
+		Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.fragment_add_assignment_coordinator),
+				"FAB clicked",
+				Snackbar.LENGTH_SHORT);
+		snackbar.show();
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode){
+			case DATE_PICKER_FRAGMENT_REQUEST_CODE:
+				if(resultCode == Activity.RESULT_OK){
+					//TODO: Get date information
+//					int day = data.getInt
+//					Date date = new Date()
+				} else {
+					//Do nothing
+				}
+				break;
+			default:
+				break;
+		}
 	}
 
 	@Override

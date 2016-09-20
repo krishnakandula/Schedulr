@@ -47,6 +47,7 @@ public class ClassFragment extends Fragment {
 	private Unbinder mUnbinder;
 	private Realm mRealm;
 	private static final String LOG_TAG = ClassFragment.class.getSimpleName();
+
 	private static boolean classItemViewIsSelected;
 	private static Class classItemSelected;
 	private static Integer classItemSelectedPosition;
@@ -129,7 +130,7 @@ public class ClassFragment extends Fragment {
 			mClassNumberTextView.setText(String.format("%d", c.getClassNumber()));
 			mSubjectTextView.setText(c.getSubject());
 			mTeacherTextView.setText(c.getTeacher());
-			if(classItemViewIsSelected){
+			if(classItemViewIsSelected && position == classItemSelectedPosition){
 				mCardView.setBackgroundResource(R.color.cardview_shadow_start_color);
 			} else {
 				mCardView.setBackgroundResource(R.color.default_color);
@@ -203,6 +204,7 @@ public class ClassFragment extends Fragment {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		classItemViewIsSelected = false;
 		mRealm.close();
 		mUnbinder.unbind();
 	}
