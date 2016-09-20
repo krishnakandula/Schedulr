@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import com.silver.krish.schedulr.Fragments.AddAssignmentFragment;
 
+import butterknife.BindView;
+
 public class AddAssignmentActivity extends AppCompatActivity {
 
 	@Override

@@ -72,12 +72,12 @@ public class ClassController {
 
 	public Class getClass(String subject, long classNumber){
 		mRealm = Realm.getDefaultInstance();
-		RealmResults<Class> realmResults = mRealm.where(Class.class)
+		Class realmResult = mRealm.where(Class.class)
 				.equalTo("subject", subject)
 				.equalTo("classNumber", classNumber)
-				.findAll();
+				.findFirst();
 
-		return realmResults.get(0);
+		return realmResult;
 	}
 
 	public void updateClassList(){
@@ -106,6 +106,7 @@ public class ClassController {
 			mRealm.commitTransaction();
 			return true;
 		} else {
+			mRealm.cancelTransaction();
 			return false;
 		}
 	}

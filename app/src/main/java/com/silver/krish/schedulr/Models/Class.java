@@ -77,4 +77,5 @@ public class Class extends RealmObject{
 	public void setAssignments(RealmList<Assignment> assignments) {
 		this.assignments = assignments;
 	}
+
 }

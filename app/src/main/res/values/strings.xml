@@ -12,7 +12,7 @@
     <string name="assignment_description_hint">Description</string>
     <string name="assignment_due_date">Due Date?</string>
     <string name="assignment_priority">Priority?</string>
-
+    <string name="assignment_class">Class?</string>
     <array name="add_priority_spinner">
         <item>Low</item>
         <item>Medium</item>

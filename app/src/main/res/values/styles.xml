@@ -47,5 +47,6 @@
         <item name="android:weightSum">100</item>
         <item name="android:layout_marginLeft">@dimen/edit_text_input_margin</item>
         <item name="android:layout_marginRight">@dimen/edit_text_input_margin</item>
+        <item name="android:minHeight">?attr/listPreferredItemHeightSmall</item>
     </style>
 </resources>

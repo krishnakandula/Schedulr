@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.silver.krish.schedulr.AddAssignmentActivity">
+    tools:context="com.silver.krish.schedulr.AddAssignmentActivity"
+    android:id="@+id/activity_add_assignment">
     <FrameLayout
     android:id="@+id/activity_add_assignment_container"
     android:layout_width="match_parent"
