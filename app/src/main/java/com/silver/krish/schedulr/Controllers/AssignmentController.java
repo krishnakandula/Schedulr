@@ -3,6 +3,7 @@ package com.silver.krish.schedulr.Controllers;
 import android.util.Log;
 
 import com.silver.krish.schedulr.Models.Assignment;
+import com.silver.krish.schedulr.Models.Class;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,23 @@ public class AssignmentController {
 		Log.v(LOG_TAG, assignmentList.toString());
 	}
 
-//	public boolean addAssignment(Assignment assignment, Class c){
-//
-//	}
+	public boolean addAssignment(Assignment assignment){
+		addAssignmentToRealm(assignment);
+		assignmentList.add(assignment);
+		//Update classes assignment list
+//		Class c = ClassController.getClassController().getClass(assignment.getSubject(), assignment.getClassNumber());
+//		c.getAssignments().add(assignment);
+		return true;
+	}
+
+	private void addAssignmentToRealm(Assignment assignment){
+		Realm mRealm = Realm.getDefaultInstance();
+		mRealm.beginTransaction();
+		mRealm.copyToRealm(assignment);
+		mRealm.commitTransaction();
+	}
+
+	private void updateAssignmentsForClasses(){
+
+	}
 }

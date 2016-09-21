@@ -66,7 +66,7 @@ public class ClassController {
 
 	private void addClassToRealm(Class newClass){
 		mRealm.beginTransaction();
-		Class c = mRealm.copyToRealm(newClass);
+		Class c = mRealm.copyToRealmOrUpdate(newClass);
 		mRealm.commitTransaction();
 	}
 

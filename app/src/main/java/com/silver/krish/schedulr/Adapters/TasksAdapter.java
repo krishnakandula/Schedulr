@@ -8,7 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.silver.krish.schedulr.Controllers.AssignmentController;
+import com.silver.krish.schedulr.Models.Assignment;
 import com.silver.krish.schedulr.R;
+
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,12 +54,15 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 		}
 
 		public void onBind(int position){
-			if(position == 3){
-				titleView.setText("Work on Discrete Math Homework");
-				dueDateView.setText("Jan 4");
-				descriptionView.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam purus magna, accumsan ut nisi eget, imperdiet porttitor eros. Vivamus maximus fermentum vehicula. Curabitur viverra enim ut nisi fermentum laoreet. Curabitur lobortis enim eget nulla hendrerit iaculis. Donec condimentum ligula eleifend justo sodales, et bibendum sem bibendum. Interdum et malesuada fames ac ante ipsum primis in faucibus. In tortor arcu, faucibus ac est ac, auctor efficitur orci. In mattis nulla id malesuada bibendum. Duis sagittis aliquet vestibulum. Praesent dapibus urna in malesuada fermentum. Etiam eros eros, venenatis vitae sem ut, hendrerit iaculis dui. In at turpis nec sem tristique rutrum. Cras eros augue, pretium quis dignissim ut, porttitor sed tortor. Aliquam dignissim ante libero, quis consectetur lectus tincidunt vel. Pellentesque at gravida enim.");
-				itemView.setBackgroundResource(R.color.material_amber_400);
-			}
+			Assignment assignment = AssignmentController.getAssignmentController().getAssignmentList().get(position);
+			titleView.setText(assignment.getAssignmentName());
+			descriptionView.setText(assignment.getDescription());
+			Date date = assignment.getDueDate();
+			int day = date.getDay();
+			int month = date.getMonth();
+			int year = date.getYear();
+			StringBuilder formattedDate = new StringBuilder("" + month).append("/").append(day).append("/").append(year);
+			dueDateView.setText("Due: " + formattedDate.toString());
 		}
 
 		@Override

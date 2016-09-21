@@ -3,7 +3,6 @@ package com.silver.krish.schedulr;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements ClassFragment.OnC
 
 	private ViewPagerAdapter mPagerAdapter;
 	@Override
-	protected void onCreate(@Nullable Bundle savedInstanceState) {
+	protected void onCreate( Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		mUnbinder = ButterKnife.bind(this);

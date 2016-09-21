@@ -1,7 +1,6 @@
 package com.silver.krish.schedulr.Fragments;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -11,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.silver.krish.schedulr.Adapters.TasksAdapter;
 import com.silver.krish.schedulr.Constants;
+import com.silver.krish.schedulr.Controllers.AssignmentController;
 import com.silver.krish.schedulr.R;
 
 import butterknife.BindView;
@@ -26,13 +26,12 @@ public class AssignmentsFragment extends Fragment {
 	private Unbinder mUnbinder;
 	private TasksAdapter mTasksAdapter;
 	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
+	public void onCreate( Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	}
-
-	@Nullable
+	
 	@Override
-	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_assignments, container, false);
 		mUnbinder = ButterKnife.bind(this, view);
 		setupAssignmentsRecyclerView();
@@ -43,7 +42,7 @@ public class AssignmentsFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		//refresh assignment list
+		refreshAssignmentList();
 	}
 
 	private void setupAssignmentsRecyclerView(){
@@ -59,5 +58,8 @@ public class AssignmentsFragment extends Fragment {
 		mUnbinder.unbind();
 	}
 
-
+	private void refreshAssignmentList(){
+		AssignmentController.getAssignmentController().updateAssignmentList();
+		mTasksAdapter.notifyDataSetChanged();
+	}
 }

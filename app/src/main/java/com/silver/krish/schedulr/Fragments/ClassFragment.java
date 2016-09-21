@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -60,14 +59,14 @@ public class ClassFragment extends Fragment {
 	}
 
 	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
+	public void onCreate( Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mRealm = Realm.getDefaultInstance();
 	}
 
-	@Nullable
+	
 	@Override
-	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.classes_fragment, container, false);
 		mUnbinder = ButterKnife.bind(this, view);
 

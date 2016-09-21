@@ -14,7 +14,7 @@ public class Assignment extends RealmObject{
 	private Date dueDate;
 //	private Date assignedDate;
 	private String subject;
-	private String classNumber;
+	private long classNumber;
 	private String description;
 	private boolean isCompleted;
 	@PrimaryKey
@@ -25,6 +25,7 @@ public class Assignment extends RealmObject{
 	}
 
 	public Assignment(String name, Date dueDate, String description){
+		assignmentId = new Random().nextInt();
 		this.assignmentName = name;
 		this.dueDate = dueDate;
 		this.description = description;
@@ -54,11 +55,11 @@ public class Assignment extends RealmObject{
 		this.subject = subject;
 	}
 
-	public String getClassNumber() {
+	public long getClassNumber() {
 		return classNumber;
 	}
 
-	public void setClassNumber(String classNumber) {
+	public void setClassNumber(long classNumber) {
 		this.classNumber = classNumber;
 	}
 

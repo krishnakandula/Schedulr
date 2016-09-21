@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -60,13 +59,13 @@ public class AddAssignmentFragment extends Fragment{
 	private String assignmentName;
 	private String assignmentDescription;
 	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
+	public void onCreate( Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	}
 
-	@Nullable
+	
 	@Override
-	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_add_assignment, container, false);
 		mUnbinder = ButterKnife.bind(this, view);
 		setupPrioritySpinner();
@@ -129,8 +128,11 @@ public class AddAssignmentFragment extends Fragment{
 			makeSnackbar("Please enter an assignment description");
 			return;
 		}
+		assignmentName = nameEditText.getText().toString();
+		assignmentDescription = descriptionEditText.getText().toString();
 		Assignment assignment = new Assignment(assignmentName, assignmentDate, assignmentDescription);
-		//TODO: Add assignment to assignmentList
+		AssignmentController.getAssignmentController().addAssignment(assignment);
+		getActivity().onBackPressed();
 	}
 
 	private void makeSnackbar(String message){
@@ -150,9 +152,8 @@ public class AddAssignmentFragment extends Fragment{
 					assignmentDate = new Date(year, month, day);
 
 					//Change due date button text
-					DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-					String formattedDate = formatter.format(assignmentDate);
-					dueDateButton.setText(formattedDate);
+					StringBuilder formattedDate = new StringBuilder("" + month).append("/").append(day).append("/").append(year);
+					dueDateButton.setText(formattedDate.toString());
 				} else {
 					//Do nothing
 				}
@@ -161,6 +162,8 @@ public class AddAssignmentFragment extends Fragment{
 				break;
 		}
 	}
+
+
 
 	@Override
 	public void onResume() {
