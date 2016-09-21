@@ -12,7 +12,7 @@ import io.realm.annotations.PrimaryKey;
 public class Assignment extends RealmObject{
 	private String assignmentName;
 	private Date dueDate;
-	private Date assignedDate;
+//	private Date assignedDate;
 	private String subject;
 	private String classNumber;
 	private String description;
@@ -22,6 +22,12 @@ public class Assignment extends RealmObject{
 
 	public Assignment(){
 		assignmentId = new Random().nextInt();
+	}
+
+	public Assignment(String name, Date dueDate, String description){
+		this.assignmentName = name;
+		this.dueDate = dueDate;
+		this.description = description;
 	}
 
 	public String getAssignmentName() {
@@ -38,14 +44,6 @@ public class Assignment extends RealmObject{
 
 	public void setDueDate(Date dueDate) {
 		this.dueDate = dueDate;
-	}
-
-	public Date getAssignedDate() {
-		return assignedDate;
-	}
-
-	public void setAssignedDate(Date assignedDate) {
-		this.assignedDate = assignedDate;
 	}
 
 	public String getSubject() {

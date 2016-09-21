@@ -22,10 +22,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.silver.krish.schedulr.Controllers.AssignmentController;
 import com.silver.krish.schedulr.Controllers.ClassController;
+import com.silver.krish.schedulr.Models.Assignment;
 import com.silver.krish.schedulr.Models.Class;
 import com.silver.krish.schedulr.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -48,9 +52,13 @@ public class AddAssignmentFragment extends Fragment{
 	@BindView(R.id.fragment_add_assignment_fab) FloatingActionButton fab;
 
 	private Unbinder mUnbinder;
+
 	private static final int DATE_PICKER_FRAGMENT_REQUEST_CODE = 1;
 	private static final String DATE_PICKER_FRAGMENT_TAG = "DATE_PICKER_DIALOG";
 
+	private Date assignmentDate;
+	private String assignmentName;
+	private String assignmentDescription;
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -111,10 +119,23 @@ public class AddAssignmentFragment extends Fragment{
 
 	@OnClick(R.id.fragment_add_assignment_fab)
 	public void onClickFab(){
-		//TODO: Add implementation for add assignment FAB
+		//TODO: Add assignment to assigment list
+		if(nameEditText.getText().toString().isEmpty()){
+			makeSnackbar("Please enter an assignment name");
+			return;
+		}
+
+		if(descriptionEditText.getText().toString().isEmpty()){
+			makeSnackbar("Please enter an assignment description");
+			return;
+		}
+		Assignment assignment = new Assignment(assignmentName, assignmentDate, assignmentDescription);
+		//TODO: Add assignment to assignmentList
+	}
+
+	private void makeSnackbar(String message){
 		Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.fragment_add_assignment_coordinator),
-				"FAB clicked",
-				Snackbar.LENGTH_SHORT);
+				"Please enter an assignment name", Snackbar.LENGTH_LONG);
 		snackbar.show();
 	}
 
@@ -123,9 +144,15 @@ public class AddAssignmentFragment extends Fragment{
 		switch (requestCode){
 			case DATE_PICKER_FRAGMENT_REQUEST_CODE:
 				if(resultCode == Activity.RESULT_OK){
-					//TODO: Get date information
-//					int day = data.getInt
-//					Date date = new Date()
+					int day = data.getIntExtra(DatePickerFragment.DAY_KEY, 1);
+					int month = data.getIntExtra(DatePickerFragment.MONTH_KEY, 1);
+					int year = data.getIntExtra(DatePickerFragment.YEAR_KEY, 2016);
+					assignmentDate = new Date(year, month, day);
+
+					//Change due date button text
+					DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+					String formattedDate = formatter.format(assignmentDate);
+					dueDateButton.setText(formattedDate);
 				} else {
 					//Do nothing
 				}
