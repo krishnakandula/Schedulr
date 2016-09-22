@@ -10,7 +10,6 @@ import io.realm.annotations.PrimaryKey;
  * Created by Krishna Kandula on 8/28/2016.
  */
 public class Assignment extends RealmObject{
-	private String assignmentName;
 	private Date dueDate;
 //	private Date assignedDate;
 	private String subject;
@@ -24,19 +23,10 @@ public class Assignment extends RealmObject{
 		assignmentId = new Random().nextInt();
 	}
 
-	public Assignment(String name, Date dueDate, String description){
+	public Assignment(Date dueDate, String description){
 		assignmentId = new Random().nextInt();
-		this.assignmentName = name;
 		this.dueDate = dueDate;
 		this.description = description;
-	}
-
-	public String getAssignmentName() {
-		return assignmentName;
-	}
-
-	public void setAssignmentName(String assignmentName) {
-		this.assignmentName = assignmentName;
 	}
 
 	public Date getDueDate() {
@@ -73,7 +63,7 @@ public class Assignment extends RealmObject{
 
 	@Override
 	public String toString() {
-		return assignmentName;
+		return description;
 	}
 
 	public String getDescription() {

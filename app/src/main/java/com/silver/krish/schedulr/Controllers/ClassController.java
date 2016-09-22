@@ -83,11 +83,10 @@ public class ClassController {
 	public void updateClassList(){
 		mRealm = Realm.getDefaultInstance();
 		RealmResults<Class> updatedClasses = mRealm.where(Class.class).findAll();
+		classList.clear();
 		if(updatedClasses.size() == 0){
-			classList.clear();
 			Log.v(LOG_TAG, "Class table was empty");
 		} else {
-			classList.clear();
 			for(Class c : updatedClasses){
 				addClass(c);
 			}

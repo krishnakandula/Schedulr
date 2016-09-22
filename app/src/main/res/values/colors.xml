@@ -8,4 +8,11 @@
     <color name="pressed_color">#4d90fe</color>
     <color name="default_color">#ffffff</color>
 
+    <!--AssignmentItemView colors -->
+    <color name="light_purple">#D1C4E9</color>
+    <color name="light_indigo">#C5CAE9</color>
+    <color name="light_blue">#BBDEFB</color>
+    <color name="light_cyan">#B2EBF2</color>
+    <color name="light_teal">#B2DFDB</color>
+    <color name="light_blue_grey">#CFD8DC</color>
 </resources>

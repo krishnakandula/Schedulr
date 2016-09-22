@@ -21,7 +21,6 @@ public class AssignmentController {
 	private AssignmentController(){
 		assignmentList = new ArrayList<>();
 	}
-
 	public static AssignmentController getAssignmentController(){
 		if(assignmentController == null){
 			assignmentController = new AssignmentController();
@@ -35,13 +34,15 @@ public class AssignmentController {
 
 	public void updateAssignmentList(){
 		Realm mRealm = Realm.getDefaultInstance();
+		mRealm.beginTransaction();
 		RealmResults<Assignment> realmResults = mRealm.where(Assignment.class).findAll();
+		assignmentList.clear();
 		if(realmResults.isEmpty()){
 			Log.v(LOG_TAG, "Assignments table was empty");
-			assignmentList.clear();
 		} else {
 			assignmentList = mRealm.copyFromRealm(realmResults);
 		}
+		mRealm.commitTransaction();
 		Log.v(LOG_TAG, assignmentList.toString());
 	}
 
@@ -57,7 +58,7 @@ public class AssignmentController {
 	private void addAssignmentToRealm(Assignment assignment){
 		Realm mRealm = Realm.getDefaultInstance();
 		mRealm.beginTransaction();
-		mRealm.copyToRealm(assignment);
+		mRealm.copyToRealmOrUpdate(assignment);
 		mRealm.commitTransaction();
 	}
 

@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.silver.krish.schedulr.Controllers.ClassController;
 import com.silver.krish.schedulr.Fragments.AssignmentsFragment;
 import com.silver.krish.schedulr.Fragments.ClassFragment;
 import com.silver.krish.schedulr.Models.Class;
@@ -134,8 +135,16 @@ public class MainActivity extends AppCompatActivity implements ClassFragment.OnC
 				break;
 			case ASSIGNMENT_LIST_PAGE_POSITION:
 				//Start AddAssignmentActivity
-				Intent intent = new Intent(this, AddAssignmentActivity.class);
-				startActivity(intent);
+				boolean noClasses = ClassController.getClassController().getClassList().isEmpty();
+				if(!noClasses){
+					Intent intent = new Intent(this, AddAssignmentActivity.class);
+					startActivity(intent);
+				} else {
+					String errorMessage = "Please add a Class before adding an Assignment";
+					Snackbar snackbar = Snackbar.make(findViewById(R.id.activity_main_coordinator_layout),
+							errorMessage, Snackbar.LENGTH_LONG);
+					snackbar.show();
+				}
 				break;
 			default:
 				break;

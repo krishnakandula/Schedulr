@@ -11,6 +11,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.silver.krish.schedulr.Controllers.AssignmentController;
@@ -33,20 +35,24 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemClick;
 import butterknife.Unbinder;
+import io.realm.Realm;
 
 /**
  * Created by Krishna Kandula on 9/18/2016.
  */
-public class AddAssignmentFragment extends Fragment{
+public class AddAssignmentFragment extends Fragment implements AdapterView.OnItemSelectedListener{
 	@BindView(R.id.fragment_add_assignment_priority_spinner) Spinner prioritySpinner;
 	@BindView(R.id.fragment_add_assignment_class_spinner) Spinner classesSpinner;
 	@BindView(R.id.fragment_add_assignment_due_date_button) Button dueDateButton;
-	@BindView(R.id.fragment_add_assignment_name_edit_text) EditText nameEditText;
+//	@BindView(R.id.fragment_add_assignment_name_edit_text) EditText nameEditText;
 	@BindView(R.id.fragment_add_assignment_description_edit_text) EditText descriptionEditText;
 	@BindView(R.id.fragment_add_assignment_fab) FloatingActionButton fab;
 
@@ -54,10 +60,12 @@ public class AddAssignmentFragment extends Fragment{
 
 	private static final int DATE_PICKER_FRAGMENT_REQUEST_CODE = 1;
 	private static final String DATE_PICKER_FRAGMENT_TAG = "DATE_PICKER_DIALOG";
+	private static final String LOG_TAG = AddAssignmentFragment.class.getSimpleName();
 
 	private Date assignmentDate;
-	private String assignmentName;
 	private String assignmentDescription;
+	private Long classNumber;
+	private String classSubject;
 	@Override
 	public void onCreate( Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -106,6 +114,7 @@ public class AddAssignmentFragment extends Fragment{
 				classDescriptions);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		classesSpinner.setAdapter(adapter);
+		classesSpinner.setOnItemSelectedListener(this);
 	}
 
 	@OnClick(R.id.fragment_add_assignment_due_date_button)
@@ -119,19 +128,23 @@ public class AddAssignmentFragment extends Fragment{
 	@OnClick(R.id.fragment_add_assignment_fab)
 	public void onClickFab(){
 		//TODO: Add assignment to assigment list
-		if(nameEditText.getText().toString().isEmpty()){
-			makeSnackbar("Please enter an assignment name");
-			return;
-		}
-
 		if(descriptionEditText.getText().toString().isEmpty()){
 			makeSnackbar("Please enter an assignment description");
 			return;
 		}
-		assignmentName = nameEditText.getText().toString();
+
 		assignmentDescription = descriptionEditText.getText().toString();
-		Assignment assignment = new Assignment(assignmentName, assignmentDate, assignmentDescription);
-		AssignmentController.getAssignmentController().addAssignment(assignment);
+		if(assignmentDate == null){
+			Calendar c = Calendar.getInstance();
+			assignmentDate = new Date(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+		}
+		Assignment assignment = new Assignment(assignmentDate, assignmentDescription);
+		if(classNumber != null && classSubject != null){
+			assignment.setClassNumber(classNumber);
+			assignment.setSubject(classSubject);
+			AssignmentController.getAssignmentController().addAssignment(assignment);
+		}
+
 		getActivity().onBackPressed();
 	}
 
@@ -163,7 +176,26 @@ public class AddAssignmentFragment extends Fragment{
 		}
 	}
 
+	@Override
+	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+		String selectedClass = parent.getItemAtPosition(position).toString();
+		Pattern p = Pattern.compile("\\w*\\b");
+		Matcher m = p.matcher(selectedClass);
+		if(m.find()){
+			classSubject = m.group(0).toString();
+		}
+		//find last space to get classNumber
+		try {
+			classNumber = Long.parseLong(selectedClass.substring(selectedClass.lastIndexOf(' ') + 1, selectedClass.length()));
+		} catch(NumberFormatException e){
+			Log.e(LOG_TAG, e.getMessage(), e);
+		}
+	}
 
+	@Override
+	public void onNothingSelected(AdapterView<?> parent) {
+		//Do nothing
+	}
 
 	@Override
 	public void onResume() {

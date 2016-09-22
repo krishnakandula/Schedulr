@@ -58,7 +58,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
 		public void onBind(int position){
 			Assignment assignment = AssignmentController.getAssignmentController().getAssignmentList().get(position);
-//			titleView.setText(assignment.getAssignmentName());
+			titleView.setText(assignment.getSubject() + " " + assignment.getClassNumber());
 			descriptionView.setText(assignment.getDescription());
 			Date date = assignment.getDueDate();
 			int day = date.getDay();
@@ -70,8 +70,12 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 		}
 
 		private void randomlySetCardViewBackgroundColor(CardView cardView){
-			int[] colors = new int[]{Color.BLUE, Color.GRAY, Color.GREEN, Color.WHITE, Color.WHITE, Color.MAGENTA, Color.RED, Color.YELLOW
-									, Color.CYAN};
+			int[] colors = new int[]{mContext.getColor(R.color.light_blue),
+									mContext.getColor(R.color.light_purple),
+									mContext.getColor(R.color.light_teal),
+									mContext.getColor(R.color.light_indigo),
+									mContext.getColor(R.color.light_cyan),
+									mContext.getColor(R.color.light_blue_grey)};
 			int color = colors[getRandomInteger(0, colors.length)];
 			cardView.setCardBackgroundColor(color);
 		}
