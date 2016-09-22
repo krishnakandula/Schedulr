@@ -153,7 +153,6 @@ public class MainActivity extends AppCompatActivity implements ClassFragment.OnC
 
 	@Override
 	public void onClassItemSelected(boolean isSelected) {
-		//TODO: Change this so that edit is not overwritten if even one changes
 		if(isSelected) {
 			//Change FAB to edit
 			mFloatingActionButton.setImageResource(R.drawable.ic_action_edit);
@@ -178,14 +177,17 @@ public class MainActivity extends AppCompatActivity implements ClassFragment.OnC
 				long number = data.getLongExtra(Constants.getEditClassNumberKey(), 0);
 				String message = String.format("%s %d was deleted", subject, number);
 				makeSnackbar(message, Snackbar.LENGTH_LONG);
-
-				//Set classItemViewIsSelected in ClassFragment to null
-				ClassFragment fragment = (ClassFragment) mPagerAdapter.getItem(CLASS_LIST_PAGE_POSITION);
-				fragment.setClassItemSelected(null);
-				fragment.setClassItemViewIsSelected(false);
-				onClassItemSelected(false);
+				deselectClassItem();
 			}
 		}
+	}
+
+	private void deselectClassItem() {
+		//Set classItemViewIsSelected in ClassFragment to null
+		ClassFragment fragment = (ClassFragment) mPagerAdapter.getItem(CLASS_LIST_PAGE_POSITION);
+		fragment.setClassItemSelected(null);
+		fragment.setClassItemViewIsSelected(false);
+		onClassItemSelected(false);
 	}
 
 	private void makeSnackbar(String message, int length){
@@ -196,5 +198,20 @@ public class MainActivity extends AppCompatActivity implements ClassFragment.OnC
 	private boolean isClassesFabEditIconShown(){
 		ClassFragment classFragment = (ClassFragment)mPagerAdapter.getItem(CLASS_LIST_PAGE_POSITION);
 		return classFragment.getClassItemViewIsSelected();
+	}
+
+	//TODO: Fix onBackPressed
+	@Override
+	public void onBackPressed() {
+//		//If class is selected, deselect it
+//		if(currentViewPage == CLASS_LIST_PAGE_POSITION){
+//			if(isClassesFabEditIconShown()){
+//				deselectClassItem();
+//				//TODO: FIX: When item is deselected, background still gray
+//			}
+//		} else {
+//			super.onBackPressed();
+//		}
+		super.onBackPressed();
 	}
 }

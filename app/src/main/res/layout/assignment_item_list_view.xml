@@ -13,22 +13,22 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/assignment_list_view_title"
+            android:id="@+id/assignment_list_view_description"
             style="@style/GridLayoutItemView"
             android:gravity="center_vertical"
-            android:text="TITLE"
+            android:text="TASK"
             android:textSize="@dimen/grid_item_title_text_size"></TextView>
 
         <TextView
-            android:id="@+id/assignment_list_view_description"
+            android:id="@+id/assignment_list_view_title"
             style="@style/GridLayoutItemView"
-            android:layout_below="@id/assignment_list_view_title"
+            android:layout_below="@id/assignment_list_view_description"
             android:text="DESCRIPTION" />
 
         <TextView
             android:id="@+id/assignment_list_view_due_date"
             style="@style/GridLayoutItemView"
-            android:layout_below="@id/assignment_list_view_description"
+            android:layout_below="@id/assignment_list_view_title"
             android:layout_marginBottom="@dimen/material_component_cards_supporting_text_top_padding"
             android:text="DUE_DATE" />
     </RelativeLayout>

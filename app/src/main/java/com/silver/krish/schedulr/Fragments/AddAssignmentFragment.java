@@ -71,7 +71,6 @@ public class AddAssignmentFragment extends Fragment implements AdapterView.OnIte
 		super.onCreate(savedInstanceState);
 	}
 
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_add_assignment, container, false);
@@ -127,7 +126,6 @@ public class AddAssignmentFragment extends Fragment implements AdapterView.OnIte
 
 	@OnClick(R.id.fragment_add_assignment_fab)
 	public void onClickFab(){
-		//TODO: Add assignment to assigment list
 		if(descriptionEditText.getText().toString().isEmpty()){
 			makeSnackbar("Please enter an assignment description");
 			return;
