@@ -75,6 +75,14 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 									mContext.getColor(R.color.light_teal),
 									mContext.getColor(R.color.light_indigo),
 									mContext.getColor(R.color.light_cyan),
+									mContext.getColor(R.color.light_green),
+									mContext.getColor(R.color.light_yellow),
+									mContext.getColor(R.color.light_amber),
+									mContext.getColor(R.color.light_orange),
+									mContext.getColor(R.color.light_deep_orange),
+									mContext.getColor(R.color.light_pink),
+									mContext.getColor(R.color.light_brown),
+									mContext.getColor(R.color.light_red),
 									mContext.getColor(R.color.light_blue_grey)};
 			int color = colors[getRandomInteger(0, colors.length)];
 			cardView.setCardBackgroundColor(color);
