@@ -1,6 +1,8 @@
 package com.silver.krish.schedulr.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,13 +43,14 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 	@Override
 	public int getItemCount() {
 		return AssignmentController.getAssignmentController().getAssignmentList().size();
-//		return 5;
 	}
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 		@BindView(R.id.assignment_list_view_title) TextView titleView;
 		@BindView(R.id.assignment_list_view_description) TextView descriptionView;
 		@BindView(R.id.assignment_list_view_due_date) TextView dueDateView;
+		@BindView(R.id.assignment_list_item_cardview) CardView cardView;
+
 		public ViewHolder(View itemView) {
 			super(itemView);
 			ButterKnife.bind(this, itemView);
@@ -55,7 +58,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
 		public void onBind(int position){
 			Assignment assignment = AssignmentController.getAssignmentController().getAssignmentList().get(position);
-			titleView.setText(assignment.getAssignmentName());
+//			titleView.setText(assignment.getAssignmentName());
 			descriptionView.setText(assignment.getDescription());
 			Date date = assignment.getDueDate();
 			int day = date.getDay();
@@ -63,11 +66,24 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 			int year = date.getYear();
 			StringBuilder formattedDate = new StringBuilder("" + month).append("/").append(day).append("/").append(year);
 			dueDateView.setText("Due: " + formattedDate.toString());
+			randomlySetCardViewBackgroundColor(cardView);
+		}
+
+		private void randomlySetCardViewBackgroundColor(CardView cardView){
+			int[] colors = new int[]{Color.BLUE, Color.GRAY, Color.GREEN, Color.WHITE, Color.WHITE, Color.MAGENTA, Color.RED, Color.YELLOW
+									, Color.CYAN};
+			int color = colors[getRandomInteger(0, colors.length)];
+			cardView.setCardBackgroundColor(color);
 		}
 
 		@Override
 		public void onClick(View v) {
 
 		}
+	}
+
+	private static int getRandomInteger(int min, int max){
+		int range = max - min;
+		return ((int) (Math.random() * range) + min);
 	}
 }
