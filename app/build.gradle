@@ -41,5 +41,6 @@ dependencies {
     compile 'com.dmitrymalkovich.android:material-design-dimens:1.2'
     apt 'org.parceler:parceler:1.1.5'
     compile 'com.getbase:floatingactionbutton:1.10.1'
+    compile 'petrov.kristiyan.colorpicker:colorpicker-library:1.1.0'
 
 }
