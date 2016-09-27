@@ -3,6 +3,7 @@ package com.silver.krish.schedulr.Fragments;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -10,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,10 +54,9 @@ public class AddAssignmentFragment extends Fragment implements AdapterView.OnIte
 	@BindView(R.id.fragment_add_assignment_priority_spinner) Spinner prioritySpinner;
 	@BindView(R.id.fragment_add_assignment_class_spinner) Spinner classesSpinner;
 	@BindView(R.id.fragment_add_assignment_due_date_button) Button dueDateButton;
-//	@BindView(R.id.fragment_add_assignment_name_edit_text) EditText nameEditText;
 	@BindView(R.id.fragment_add_assignment_description_edit_text) EditText descriptionEditText;
 	@BindView(R.id.fragment_add_assignment_fab) FloatingActionButton fab;
-
+	@BindView(R.id.fragment_add_assignment_toolbar) Toolbar mToolbar;
 	private Unbinder mUnbinder;
 
 	private static final int DATE_PICKER_FRAGMENT_REQUEST_CODE = 1;
@@ -66,6 +67,7 @@ public class AddAssignmentFragment extends Fragment implements AdapterView.OnIte
 	private String assignmentDescription;
 	private Long classNumber;
 	private String classSubject;
+
 	@Override
 	public void onCreate( Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -75,10 +77,16 @@ public class AddAssignmentFragment extends Fragment implements AdapterView.OnIte
 	public View onCreateView(LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_add_assignment, container, false);
 		mUnbinder = ButterKnife.bind(this, view);
+		setupToolbar();
 		setupPrioritySpinner();
 		setupClassSpinner();
 		setupDueDateButton();
 		return view;
+	}
+
+	private void setupToolbar(){
+		mToolbar.setTitle("New Assignment");
+		mToolbar.setTitleTextColor(Color.WHITE);
 	}
 
 	private void setupPrioritySpinner() {
@@ -140,9 +148,9 @@ public class AddAssignmentFragment extends Fragment implements AdapterView.OnIte
 		if(classNumber != null && classSubject != null){
 			assignment.setClassNumber(classNumber);
 			assignment.setSubject(classSubject);
-			AssignmentController.getAssignmentController().addAssignment(assignment);
 		}
 
+		AssignmentController.getAssignmentController().addAssignment(assignment);
 		getActivity().onBackPressed();
 	}
 

@@ -10,18 +10,14 @@
         android:id="@+id/add_class_activity_coordinator_layout">
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp">
-            <android.support.design.widget.CollapsingToolbarLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_scrollFlags="exitUntilCollapsed">
+            android:layout_height="75dp">
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/add_class_activity_toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize">
-
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom">
                 </android.support.v7.widget.Toolbar>
-            </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -30,87 +26,58 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/material_component_grid_lists_padding_big">
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/TextInputLayout">
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/add_class_activity_class_name_edit_text"
+                            android:hint="@string/add_class_name_hint"
+                            style="@style/TextInputEditLayout"/>
+                    </android.support.design.widget.TextInputLayout>
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp">
-
-                        <LinearLayout
-                            style="@style/add_class_linear_layout_item">
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:text="Name"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                                android:layout_weight="20"
-                                android:gravity="bottom"
-                                android:paddingStart="3dp"
-                                android:typeface="sans"/>
-                            <EditText
-                                android:id="@+id/add_class_activity_class_name_edit_text"
-                                android:layout_width="0dp"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="@dimen/edit_text_input_margin"
+                        android:layout_marginLeft="@dimen/edit_text_input_margin"
+                        android:layout_marginRight="@dimen/edit_text_input_margin"
+                        android:gravity="center_vertical"
+                        android:weightSum="100">
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_weight="50">
+                            <android.support.design.widget.TextInputEditText
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="70"
-                                android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            style="@style/add_class_linear_layout_item">
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="20"
-                                android:text="Subject"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                                android:gravity="center_vertical"
-                                android:paddingStart="3dp"
-                                android:typeface="sans"/>
-                            <EditText
                                 android:id="@+id/add_class_activity_subject_edit_text"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="40"
+                                android:hint="@string/add_class_subject_hint"
                                 android:inputType="textCapCharacters"/>
-                            <TextView
-                                android:layout_width="0dp"
+                        </android.support.design.widget.TextInputLayout>
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_weight="50">
+                            <android.support.design.widget.TextInputEditText
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="5"
-                                android:text="#"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                                android:gravity="center_vertical"
-                                android:paddingStart="3dp"/>
-                            <EditText
                                 android:id="@+id/add_class_activity_class_num_edit_text"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="25"
+                                android:hint="@string/add_class_number_hint"
                                 android:inputType="number"/>
-                        </LinearLayout>
-                         <LinearLayout
-                             style="@style/add_class_linear_layout_item">
-                             <TextView
-                                 android:layout_width="wrap_content"
-                                 android:layout_height="wrap_content"
-                                 android:text="Teacher"
-                                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                                 android:paddingStart="3dp"
-                                 android:typeface="sans"/>
-                             <EditText
-                                 android:id="@+id/add_class_activity_teacher_edit_text"
-                                 android:layout_width="0dp"
-                                 android:layout_height="wrap_content"
-                                 android:layout_weight="90"
-                                 android:inputType="textPersonName|text"/>
-                         </LinearLayout>
+                        </android.support.design.widget.TextInputLayout>
                     </LinearLayout>
-                </android.support.v7.widget.CardView>
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/TextInputLayout">
+                        <android.support.design.widget.TextInputEditText
+                            style="@style/TextInputEditLayout"
+                            android:id="@+id/add_class_activity_teacher_edit_text"
+                            android:hint="@string/add_class_teacher_hint"/>
+                    </android.support.design.widget.TextInputLayout>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
         <android.support.design.widget.FloatingActionButton
@@ -120,7 +87,6 @@
             android:layout_gravity="bottom|right"
             android:layout_marginBottom="@dimen/fab_labels_margin"
             android:layout_marginRight="@dimen/fab_labels_margin"
-            android:src="@drawable/ic_action_checkmark"
-            />
+            android:src="@drawable/ic_action_checkmark"/>
     </android.support.design.widget.CoordinatorLayout>
 </RelativeLayout>

@@ -43,7 +43,7 @@ public class AssignmentController {
 			assignmentList = mRealm.copyFromRealm(realmResults);
 		}
 		mRealm.commitTransaction();
-		Log.v(LOG_TAG, assignmentList.toString());
+//		Log.v(LOG_TAG, assignmentList.toString());
 	}
 
 	public boolean addAssignment(Assignment assignment){

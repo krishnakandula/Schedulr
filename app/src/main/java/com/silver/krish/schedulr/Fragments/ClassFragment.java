@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.silver.krish.schedulr.AddClassActivity;
+import com.silver.krish.schedulr.ClassDetailActivity;
 import com.silver.krish.schedulr.Controllers.AssignmentController;
 import com.silver.krish.schedulr.Controllers.ClassController;
 import com.silver.krish.schedulr.MainActivity;
@@ -46,7 +48,8 @@ public class ClassFragment extends Fragment {
 	private Unbinder mUnbinder;
 	private Realm mRealm;
 	private static final String LOG_TAG = ClassFragment.class.getSimpleName();
-
+	public static final String CLICKED_CLASS_SBJ_KEY = "CLICKED SBJ";
+	public static final String CLICKED_CLASS_NUM_KEY = "CLICKED NUM";
 	private static boolean classItemViewIsSelected;
 	private static Class classItemSelected;
 	private static Integer classItemSelectedPosition;
@@ -144,6 +147,10 @@ public class ClassFragment extends Fragment {
 				mClassItemSelectedListener.onClassItemSelected(false);
 			} else {
 				//TODO:Open class detail activity
+				Intent intent = new Intent(getContext(), ClassDetailActivity.class);
+				intent.putExtra(CLICKED_CLASS_SBJ_KEY, c.getSubject());
+				intent.putExtra(CLICKED_CLASS_NUM_KEY, c.getClassNumber());
+				startActivity(intent);
 			}
 		}
 

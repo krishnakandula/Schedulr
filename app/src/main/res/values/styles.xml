@@ -32,6 +32,14 @@
         <item name="android:layout_margin">@dimen/material_component_grid_lists_padding_big</item>
     </style>
 
+    <style name="TextInputEditLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/edit_text_input_margin</item>
+        <item name="android:layout_marginRight">@dimen/edit_text_input_margin</item>
+        <item name="android:layout_marginLeft">@dimen/edit_text_input_margin</item>
+    </style>
+
     <style name="ActionBarStyle" parent="@style/Widget.AppCompat.ActionBar.Solid">
         <item name="android:textStyle"></item>
     </style>
@@ -45,6 +53,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:weightSum">100</item>
+        <item name="android:layout_marginTop">@dimen/edit_text_input_margin</item>
         <item name="android:layout_marginLeft">@dimen/edit_text_input_margin</item>
         <item name="android:layout_marginRight">@dimen/edit_text_input_margin</item>
         <item name="android:minHeight">?attr/listPreferredItemHeightSmall</item>

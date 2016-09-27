@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">Schedulr</string>
 
-    <!-- AddClassFragment-->
+    <!-- AddClassActivity-->
     <string name="add_class_toolbar_title">New class</string>
-
+    <string name="add_class_name_hint">Class name</string>
+    <string name="add_class_subject_hint">Subject</string>
+    <string name="add_class_number_hint">Class number</string>
+    <string name="add_class_teacher_hint">Teacher</string>
     <!--menu_edit_class-->
     <string name="menu_edit_class_delete">Delete</string>
 

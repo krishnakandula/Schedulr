@@ -2,6 +2,7 @@ package com.silver.krish.schedulr;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,7 +38,6 @@ public class EditClassActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_class);
 		mUnbinder = ButterKnife.bind(this);
-		setSupportActionBar(mToolbar);
 		getClassFromIntent();
 		setViewNames();
 	}
@@ -71,6 +71,11 @@ public class EditClassActivity extends AppCompatActivity {
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+	}
+
+	private void setupActionBar(){
+		mToolbar.setTitle("Edit " + selectedClass.getClassName());
+		mToolbar.setTitleTextColor(Color.WHITE);
 	}
 
 	private void getClassFromIntent(){

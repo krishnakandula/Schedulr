@@ -1,9 +1,11 @@
 package com.silver.krish.schedulr;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
 
 import com.silver.krish.schedulr.Controllers.ClassController;
@@ -26,7 +28,7 @@ public class AddClassActivity extends AppCompatActivity{
 	@BindView(R.id.add_class_activity_class_num_edit_text) EditText mClassNumEditText;
 	@BindView(R.id.add_class_activity_subject_edit_text) EditText mSubjectEditText;
 	@BindView(R.id.add_class_activity_teacher_edit_text) EditText mTeacherEditText;
-
+	@BindView(R.id.add_class_activity_toolbar) Toolbar mToolbar;
 	private Unbinder mUnbinder;
 
 	@Override
@@ -34,12 +36,18 @@ public class AddClassActivity extends AppCompatActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_class);
 		mUnbinder = ButterKnife.bind(this);
+		setupToolbar();
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		mUnbinder.unbind();
+	}
+
+	private void setupToolbar(){
+		mToolbar.setTitle("New Class");
+		mToolbar.setTitleTextColor(Color.WHITE);
 	}
 
 	@OnClick(R.id.add_class_activity_floating_action_button)

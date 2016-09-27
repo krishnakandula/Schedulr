@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.silver.krish.schedulr.Controllers.AssignmentController;
 import com.silver.krish.schedulr.Models.Assignment;
 import com.silver.krish.schedulr.R;
 
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,15 +25,18 @@ import butterknife.ButterKnife;
  */
 public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> {
 	private Context mContext;
-	public TasksAdapter(Context context){
+	private List<Assignment> mAssignmentList;
+	OnTaskClickedListener mTaskClickedListener;
+	public TasksAdapter(Context context, List<Assignment> assignments, OnTaskClickedListener callback){
 		mContext = context;
+		setAssignmentList(assignments);
+		this.mTaskClickedListener = callback;
 	}
 
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		LayoutInflater inflater = LayoutInflater.from(mContext);
 		View itemView = inflater.inflate(R.layout.assignment_item_list_view, parent, false);
-
 		return new ViewHolder(itemView);
 	}
 
@@ -42,7 +47,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
 	@Override
 	public int getItemCount() {
-		return AssignmentController.getAssignmentController().getAssignmentList().size();
+		return mAssignmentList.size();
 	}
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -51,17 +56,20 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 		@BindView(R.id.assignment_list_view_due_date) TextView dueDateView;
 		@BindView(R.id.assignment_list_item_cardview) CardView cardView;
 
+		private Assignment mAssignment;
+
 		public ViewHolder(View itemView) {
 			super(itemView);
 			ButterKnife.bind(this, itemView);
+			itemView.setOnClickListener(this);
 		}
 
 		public void onBind(int position){
-			Assignment assignment = AssignmentController.getAssignmentController().getAssignmentList().get(position);
-			titleView.setText(assignment.getSubject() + " " + assignment.getClassNumber());
-			descriptionView.setText(assignment.getDescription());
-			Date date = assignment.getDueDate();
-			int day = date.getDay();
+			mAssignment = mAssignmentList.get(position);
+			titleView.setText(mAssignment.getSubject() + " " + mAssignment.getClassNumber());
+			descriptionView.setText(mAssignment.getDescription());
+			Date date = mAssignment.getDueDate();
+			int day = date.getDate();
 			int month = date.getMonth();
 			int year = date.getYear();
 			StringBuilder formattedDate = new StringBuilder("" + month).append("/").append(day).append("/").append(year);
@@ -90,12 +98,20 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
 		@Override
 		public void onClick(View v) {
-
+			mTaskClickedListener.onTaskClicked(mAssignment);
 		}
+	}
+
+	public interface OnTaskClickedListener{
+		void onTaskClicked(Assignment assignment);
 	}
 
 	private static int getRandomInteger(int min, int max){
 		int range = max - min;
 		return ((int) (Math.random() * range) + min);
+	}
+
+	public void setAssignmentList(List<Assignment> assignmentList){
+		this.mAssignmentList = assignmentList;
 	}
 }

@@ -11,6 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="75dp">
                 <android.support.v7.widget.Toolbar
+                    android:id="@+id/fragment_add_assignment_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize">
                 </android.support.v7.widget.Toolbar>
