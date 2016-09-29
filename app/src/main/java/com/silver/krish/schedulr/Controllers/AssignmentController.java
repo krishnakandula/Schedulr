@@ -48,10 +48,8 @@ public class AssignmentController {
 
 	public boolean addAssignment(Assignment assignment){
 		addAssignmentToRealm(assignment);
+		addAssignmentToClass(assignment);
 		assignmentList.add(assignment);
-		//Update classes assignment list
-//		Class c = ClassController.getClassController().getClass(assignment.getSubject(), assignment.getClassNumber());
-//		c.getAssignments().add(assignment);
 		return true;
 	}
 
@@ -59,6 +57,14 @@ public class AssignmentController {
 		Realm mRealm = Realm.getDefaultInstance();
 		mRealm.beginTransaction();
 		mRealm.copyToRealmOrUpdate(assignment);
+		mRealm.commitTransaction();
+	}
+
+	private void addAssignmentToClass(Assignment assignment){
+		Realm mRealm = Realm.getDefaultInstance();
+		mRealm.beginTransaction();
+		Class c = ClassController.getClassController().getClass(assignment.getSubject(), assignment.getClassNumber());
+		c.getAssignments().add(assignment);
 		mRealm.commitTransaction();
 	}
 

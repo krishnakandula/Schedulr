@@ -55,7 +55,6 @@
                             android:text="SUBJECT"
                             android:textSize="18sp"
                             />
-
                         <TextView
                             android:id="@+id/activity_class_detail_teacher_text_view"
                             android:layout_width="0dp"
@@ -66,19 +65,12 @@
                             android:textSize="18sp"/>
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp">
-
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/class_detail_activity_assignment_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:layout_behavior="@string/appbar_scrolling_view_behavior">
                     </android.support.v7.widget.RecyclerView>
-                </android.support.v7.widget.CardView>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 
