@@ -6,6 +6,7 @@ import com.silver.krish.schedulr.Models.Assignment;
 import com.silver.krish.schedulr.Models.Class;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import io.realm.Realm;
@@ -65,6 +66,24 @@ public class AssignmentController {
 		mRealm.beginTransaction();
 		Class c = ClassController.getClassController().getClass(assignment.getSubject(), assignment.getClassNumber());
 		c.getAssignments().add(assignment);
+		mRealm.commitTransaction();
+	}
+
+	public void deleteAssignment(Assignment assignment){
+		//Remove assignment from list
+		Iterator it = assignmentList.iterator();
+		while(it.hasNext()){
+			Assignment a = (Assignment)it.next();
+			if(a.getAssignmentId() == assignment.getAssignmentId()) {
+				it.remove();
+			}
+		}
+
+		//Remove assignment from DB
+		Realm mRealm = Realm.getDefaultInstance();
+		Assignment a = mRealm.where(Assignment.class).equalTo("assignmentId", assignment.getAssignmentId()).findFirst();
+		mRealm.beginTransaction();
+		a.deleteFromRealm();
 		mRealm.commitTransaction();
 	}
 
