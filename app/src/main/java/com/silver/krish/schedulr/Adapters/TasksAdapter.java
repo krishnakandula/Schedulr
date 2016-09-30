@@ -50,7 +50,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 		return mAssignmentList.size();
 	}
 
-	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
 		@BindView(R.id.assignment_list_view_title) TextView titleView;
 		@BindView(R.id.assignment_list_view_description) TextView descriptionView;
 		@BindView(R.id.assignment_list_view_due_date) TextView dueDateView;
@@ -62,6 +62,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 			super(itemView);
 			ButterKnife.bind(this, itemView);
 			itemView.setOnClickListener(this);
+			itemView.setOnLongClickListener(this);
 		}
 
 		public void onBind(int position){
@@ -99,6 +100,11 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 		@Override
 		public void onClick(View v) {
 			mTaskClickedListener.onTaskClicked(mAssignment);
+		}
+
+		@Override
+		public boolean onLongClick(View view) {
+			return false;
 		}
 	}
 

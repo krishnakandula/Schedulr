@@ -29,6 +29,10 @@ public class Assignment extends RealmObject{
 		this.description = description;
 	}
 
+	public long getAssignmentId() {
+		return assignmentId;
+	}
+
 	public Date getDueDate() {
 		return dueDate;
 	}
