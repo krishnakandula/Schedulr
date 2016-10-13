@@ -72,4 +72,9 @@ public class AssignmentsFragment extends Fragment implements TasksAdapter.OnTask
 				Snackbar.LENGTH_SHORT);
 		snackbar.show();
 	}
+
+	@Override
+	public void onLongClicked(Assignment assignment, int position) {
+
+	}
 }

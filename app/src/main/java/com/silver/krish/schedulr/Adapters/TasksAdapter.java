@@ -57,7 +57,6 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 		@BindView(R.id.assignment_list_item_cardview) CardView cardView;
 
 		private Assignment mAssignment;
-
 		public ViewHolder(View itemView) {
 			super(itemView);
 			ButterKnife.bind(this, itemView);
@@ -104,12 +103,14 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
 		@Override
 		public boolean onLongClick(View view) {
-			return false;
+			mTaskClickedListener.onLongClicked(mAssignment, getAdapterPosition());
+			return true;
 		}
 	}
 
 	public interface OnTaskClickedListener{
 		void onTaskClicked(Assignment assignment);
+		void onLongClicked(Assignment assignment, int position);
 	}
 
 	private static int getRandomInteger(int min, int max){

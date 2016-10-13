@@ -38,6 +38,7 @@ public class EditClassActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_class);
 		mUnbinder = ButterKnife.bind(this);
+		setSupportActionBar(mToolbar);
 		getClassFromIntent();
 		setViewNames();
 	}

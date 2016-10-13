@@ -110,6 +110,8 @@ public class ClassController {
 			mRealm.cancelTransaction();
 			return false;
 		}
+
+		//TODO: Delete assignments related to this class
 	}
 
 	public List<Class> getClassList(){

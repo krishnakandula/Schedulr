@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 /**
@@ -44,7 +45,6 @@ public class AssignmentController {
 			assignmentList = mRealm.copyFromRealm(realmResults);
 		}
 		mRealm.commitTransaction();
-//		Log.v(LOG_TAG, assignmentList.toString());
 	}
 
 	public boolean addAssignment(Assignment assignment){
@@ -78,7 +78,6 @@ public class AssignmentController {
 				it.remove();
 			}
 		}
-
 		//Remove assignment from DB
 		Realm mRealm = Realm.getDefaultInstance();
 		Assignment a = mRealm.where(Assignment.class).equalTo("assignmentId", assignment.getAssignmentId()).findFirst();

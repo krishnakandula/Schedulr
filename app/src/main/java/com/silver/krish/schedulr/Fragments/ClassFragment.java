@@ -146,7 +146,6 @@ public class ClassFragment extends Fragment {
 				classItemViewIsSelected = false;
 				mClassItemSelectedListener.onClassItemSelected(false);
 			} else {
-				//TODO:Open class detail activity
 				Intent intent = new Intent(getContext(), ClassDetailActivity.class);
 				intent.putExtra(CLICKED_CLASS_SBJ_KEY, c.getSubject());
 				intent.putExtra(CLICKED_CLASS_NUM_KEY, c.getClassNumber());

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.silver.krish.schedulr.Adapters.TasksAdapter;
+import com.silver.krish.schedulr.Controllers.AssignmentController;
 import com.silver.krish.schedulr.Controllers.ClassController;
 import com.silver.krish.schedulr.Fragments.ClassFragment;
 import com.silver.krish.schedulr.Models.Assignment;
@@ -21,8 +22,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-//TODO: Finish writing ClassDetailActivity
-public class ClassDetailActivity extends AppCompatActivity {
+import io.realm.RealmList;
+
+public class ClassDetailActivity extends AppCompatActivity implements TasksAdapter.OnTaskClickedListener{
 	@BindView(R.id.class_activity_detail_toolbar) Toolbar mToolbar;
 	@BindView(R.id.activity_class_detail_subject_text_view) TextView subjectTextView;
 	@BindView(R.id.activity_class_detail_teacher_text_view) TextView teacherTextView;
@@ -31,7 +33,6 @@ public class ClassDetailActivity extends AppCompatActivity {
 	private Class currentClass;
 	private Unbinder mUnbinder;
 	private TasksAdapter mTasksAdapter;
-	TasksAdapter.OnTaskClickedListener mTaskClickedListener;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,7 +61,21 @@ public class ClassDetailActivity extends AppCompatActivity {
 		mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(Constants.getAssignmentGridLayoutColumns(),
 				StaggeredGridLayoutManager.VERTICAL));
 		List<Assignment> assignments = currentClass.getAssignments();
-		mTasksAdapter = new TasksAdapter(this, assignments, mTaskClickedListener);
+		mTasksAdapter = new TasksAdapter(this, assignments, this);
 		mRecyclerView.setAdapter(mTasksAdapter);
+	}
+
+	@Override
+	public void onTaskClicked(Assignment assignment) {
+//		Toast.makeText(this, "TEST CLICK", Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void onLongClicked(Assignment assignment, int position) {
+		//Delete Assignment
+		AssignmentController.getAssignmentController().deleteAssignment(assignment);
+		mTasksAdapter.notifyItemRemoved(position);
+
+		Toast.makeText(this, "Assignment Deleted", Toast.LENGTH_LONG).show();
 	}
 }
