@@ -11,6 +11,27 @@ public class Constants {
 	private static final String EDIT_CLASS_NUMBER_KEY = "EDIT_CLASS_NUMBER_KEY";
 	private static final int EDIT_CLASS_INTENT_REQUEST_CODE = 3;
 	private static final int ASSIGNMENT_GRID_LAYOUT_COLUMNS = 2;
+	public static final int COLOR_PICKER_REQUEST_CODE = 4;
+
+	public static class ColorCodes{
+		public static String light_purple = "#D1C4E9";
+		public static String light_indigo = "#C5CAE9";
+		public static String light_blue = "#BBDEFB";
+		public static String light_cyan = "#B2EBF2";
+		public static String light_teal = "#B2DFDB";
+		public static String light_blue_grey = "#CFD8DC";
+		public static String light_green = "#C8E6C9";
+		public static String light_yellow = "#FFF9C4";
+		public static String light_amber = "#FFECB3";
+		public static String light_orange = "#FFE0B2";
+		public static String light_deep_orange = "#FFCCBC";
+		public static String light_brown = "#D7CCC8";
+		public static String light_red = "#FFCDD2";
+		public static String light_pink = "#F8BBD0";
+
+		public static String[] colors = {light_amber, light_blue, light_blue_grey, light_brown, light_cyan, light_deep_orange, light_green,
+											light_indigo, light_orange, light_pink, light_red, light_teal, light_yellow};
+	}
 
 	public static int getEditClassIntentRequestCode() {
 		return EDIT_CLASS_INTENT_REQUEST_CODE;

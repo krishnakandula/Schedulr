@@ -1,14 +1,21 @@
 package com.silver.krish.schedulr;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.silver.krish.schedulr.Controllers.ClassController;
+import com.silver.krish.schedulr.Dialogs.ColorPickerDialog;
 import com.silver.krish.schedulr.Fragments.ClassFragment;
 import com.silver.krish.schedulr.Models.Class;
 
@@ -29,6 +36,7 @@ public class AddClassActivity extends AppCompatActivity{
 	@BindView(R.id.add_class_activity_subject_edit_text) EditText mSubjectEditText;
 	@BindView(R.id.add_class_activity_teacher_edit_text) EditText mTeacherEditText;
 	@BindView(R.id.add_class_activity_toolbar) Toolbar mToolbar;
+	@BindView(R.id.add_class_activity_color_picker_button) Button mColorPickerButton;
 	private Unbinder mUnbinder;
 
 	@Override
@@ -76,6 +84,7 @@ public class AddClassActivity extends AppCompatActivity{
 		Class newClass = new Class(className, classNumber, new Random().nextInt());
 		newClass.setSubject(subjectName);
 		newClass.setTeacher(teacherName);
+		newClass.setColorCode(Constants.ColorCodes.light_amber);
 
 		ClassController.getClassController().addClass(newClass);
 		onBackPressed();
@@ -89,5 +98,23 @@ public class AddClassActivity extends AppCompatActivity{
 	private void createErrorSnackBar(String message){
 		Snackbar snackbar = Snackbar.make(findViewById(R.id.add_class_activity_coordinator_layout), message, Snackbar.LENGTH_LONG);
 		snackbar.show();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		Toast toast = Toast.makeText(this, ":)", Toast.LENGTH_SHORT);
+		toast.show();
+	}
+
+	@OnClick(R.id.add_class_activity_color_picker_button)
+	public void onClickColorPickerButton(){
+		showColorPickerDialog();
+	}
+
+	private void showColorPickerDialog(){
+		FragmentManager fm = getSupportFragmentManager();
+		ColorPickerDialog dialog = new ColorPickerDialog();
+		dialog.show(fm, "DIALOG");
 	}
 }

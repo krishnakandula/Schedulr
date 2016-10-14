@@ -10,8 +10,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.silver.krish.schedulr.Constants;
 import com.silver.krish.schedulr.Controllers.AssignmentController;
+import com.silver.krish.schedulr.Controllers.ClassController;
 import com.silver.krish.schedulr.Models.Assignment;
+import com.silver.krish.schedulr.Models.Class;
 import com.silver.krish.schedulr.R;
 
 import java.util.Date;
@@ -74,26 +77,12 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 			int year = date.getYear();
 			StringBuilder formattedDate = new StringBuilder("" + month).append("/").append(day).append("/").append(year);
 			dueDateView.setText("Due: " + formattedDate.toString());
-			randomlySetCardViewBackgroundColor(cardView);
+			Class c = ClassController.getClassController().getClass(mAssignment.getSubject(), mAssignment.getClassNumber());
+			cardView.setCardBackgroundColor(Color.parseColor(c.getColorCode()));
 		}
 
 		private void randomlySetCardViewBackgroundColor(CardView cardView){
-			int[] colors = new int[]{mContext.getColor(R.color.light_blue),
-									mContext.getColor(R.color.light_purple),
-									mContext.getColor(R.color.light_teal),
-									mContext.getColor(R.color.light_indigo),
-									mContext.getColor(R.color.light_cyan),
-									mContext.getColor(R.color.light_green),
-									mContext.getColor(R.color.light_yellow),
-									mContext.getColor(R.color.light_amber),
-									mContext.getColor(R.color.light_orange),
-									mContext.getColor(R.color.light_deep_orange),
-									mContext.getColor(R.color.light_pink),
-									mContext.getColor(R.color.light_brown),
-									mContext.getColor(R.color.light_red),
-									mContext.getColor(R.color.light_blue_grey)};
-			int color = colors[getRandomInteger(0, colors.length)];
-			cardView.setCardBackgroundColor(color);
+			cardView.setCardBackgroundColor(Color.parseColor(Constants.ColorCodes.light_deep_orange));
 		}
 
 		@Override

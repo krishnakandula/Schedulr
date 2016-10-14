@@ -21,6 +21,7 @@ public class Class extends RealmObject{
 	String teacher;
 	long classNumber;
 	RealmList<Assignment> assignments;
+	String colorCode;
 
 	public Class(){}
 
@@ -78,4 +79,11 @@ public class Class extends RealmObject{
 		this.assignments = assignments;
 	}
 
+	public String getColorCode() {
+		return colorCode;
+	}
+
+	public void setColorCode(String colorCode) {
+		this.colorCode = colorCode;
+	}
 }

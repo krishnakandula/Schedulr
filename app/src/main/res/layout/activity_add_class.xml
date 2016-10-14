@@ -94,6 +94,7 @@
                         android:layout_marginStart="4dp"
                         android:layout_weight="80"/>
                     <Button
+                        android:id="@+id/add_class_activity_color_picker_button"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="15"
