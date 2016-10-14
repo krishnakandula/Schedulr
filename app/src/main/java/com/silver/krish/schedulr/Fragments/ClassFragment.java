@@ -40,7 +40,7 @@ import io.realm.RealmResults;
 /**
  * Created by Krishna Kandula on 9/10/2016.
  */
-public class ClassFragment extends Fragment {
+public class ClassFragment extends Fragment{
 	@BindView(R.id.classes_recycler_view) RecyclerView mRecyclerView;
 
 	private RecyclerViewAdapter mRecyclerViewAdapter;

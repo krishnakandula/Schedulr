@@ -8,6 +8,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.silver.krish.schedulr.Adapters.TasksAdapter;
 import com.silver.krish.schedulr.Constants;
@@ -75,6 +76,10 @@ public class AssignmentsFragment extends Fragment implements TasksAdapter.OnTask
 
 	@Override
 	public void onLongClicked(Assignment assignment, int position) {
+		//Delete Assignment
+		AssignmentController.getAssignmentController().deleteAssignment(assignment);
+		mTasksAdapter.notifyItemRemoved(position);
 
+		Toast.makeText(getContext(), "Assignment Deleted", Toast.LENGTH_LONG).show();
 	}
 }
