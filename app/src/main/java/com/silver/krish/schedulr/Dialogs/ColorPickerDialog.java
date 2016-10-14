@@ -1,6 +1,7 @@
 package com.silver.krish.schedulr.Dialogs;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,6 +17,17 @@ import com.silver.krish.schedulr.Constants;
 
 public class ColorPickerDialog extends DialogFragment implements DialogInterface.OnClickListener{
 	String colorClicked = Constants.ColorCodes.colors[0];
+	private OnColorChosenListener mColorChosenListener;
+
+	@Override
+	public void onAttach(Context context) {
+		super.onAttach(context);
+		try{
+			this.mColorChosenListener = (OnColorChosenListener) getActivity();
+		} catch (ClassCastException e){
+			throw new ClassCastException(getActivity().toString() + " must implement OnColorChosenListener");
+		}
+	}
 
 	@NonNull
 	@Override
@@ -24,7 +36,7 @@ public class ColorPickerDialog extends DialogFragment implements DialogInterface
 		builder.setTitle("Choose Color").setPositiveButton("Okay", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-
+				dialog.dismiss();
 			}
 		}).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 			@Override
@@ -39,5 +51,10 @@ public class ColorPickerDialog extends DialogFragment implements DialogInterface
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
 		colorClicked = Constants.ColorCodes.colors[which];
+		mColorChosenListener.onColorChosen(colorClicked);
+	}
+
+	public static interface OnColorChosenListener{
+		public abstract void onColorChosen(String colorCode);
 	}
 }

@@ -29,7 +29,7 @@ import butterknife.Unbinder;
 /**
  * Created by Krishna Kandula on 9/10/2016.
  */
-public class AddClassActivity extends AppCompatActivity{
+public class AddClassActivity extends AppCompatActivity implements ColorPickerDialog.OnColorChosenListener{
 	@BindView(R.id.add_class_activity_floating_action_button) FloatingActionButton mFloatingActionButton;
 	@BindView(R.id.add_class_activity_class_name_edit_text) EditText mClassNameEditText;
 	@BindView(R.id.add_class_activity_class_num_edit_text) EditText mClassNumEditText;
@@ -38,6 +38,7 @@ public class AddClassActivity extends AppCompatActivity{
 	@BindView(R.id.add_class_activity_toolbar) Toolbar mToolbar;
 	@BindView(R.id.add_class_activity_color_picker_button) Button mColorPickerButton;
 	private Unbinder mUnbinder;
+	private String colorCode = Constants.ColorCodes.colors[0];
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +85,7 @@ public class AddClassActivity extends AppCompatActivity{
 		Class newClass = new Class(className, classNumber, new Random().nextInt());
 		newClass.setSubject(subjectName);
 		newClass.setTeacher(teacherName);
-		newClass.setColorCode(Constants.ColorCodes.light_amber);
-
+		newClass.setColorCode(colorCode);
 		ClassController.getClassController().addClass(newClass);
 		onBackPressed();
 	}
@@ -116,5 +116,12 @@ public class AddClassActivity extends AppCompatActivity{
 		FragmentManager fm = getSupportFragmentManager();
 		ColorPickerDialog dialog = new ColorPickerDialog();
 		dialog.show(fm, "DIALOG");
+	}
+
+	@Override
+	public void onColorChosen(String colorCode) {
+		Toast.makeText(this, colorCode, Toast.LENGTH_SHORT).show();
+		mColorPickerButton.setBackgroundColor(Color.parseColor(colorCode));
+		this.colorCode = colorCode;
 	}
 }

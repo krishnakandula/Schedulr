@@ -33,11 +33,18 @@
             android:text="CLASS_NUMBER"
             android:textSize="20dp" />
 
+        <View
+            android:id="@+id/cardview_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/md_divider_black"
+            android:layout_below="@id/class_item_class_number_text_view"/>
+
         <TextView
             android:id="@+id/class_item_view_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/class_item_class_number_text_view"
+            android:layout_below="@id/cardview_divider"
             android:text="CLASS_NAME"
             android:textSize="15dp" />
 

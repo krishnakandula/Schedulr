@@ -10,9 +10,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.silver.krish.schedulr.Controllers.ClassController;
+import com.silver.krish.schedulr.Dialogs.ColorPickerDialog;
 import com.silver.krish.schedulr.Models.Class;
 
 import butterknife.BindView;
@@ -21,17 +23,19 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import io.realm.Realm;
 
-public class EditClassActivity extends AppCompatActivity {
+public class EditClassActivity extends AppCompatActivity implements ColorPickerDialog.OnColorChosenListener{
 
 	@BindView(R.id.add_class_activity_class_name_edit_text) EditText classNameEditText;
 	@BindView(R.id.add_class_activity_subject_edit_text) EditText subjectEditText;
 	@BindView(R.id.add_class_activity_class_num_edit_text) EditText classNumEditText;
 	@BindView(R.id.add_class_activity_teacher_edit_text) EditText teacherEditText;
 	@BindView(R.id.add_class_activity_floating_action_button) FloatingActionButton mFloatingActionButton;
+	@BindView(R.id.add_class_activity_color_picker_button) Button mColorPickerButton;
 	@BindView(R.id.add_class_activity_toolbar) Toolbar mToolbar;
 
 	private Class selectedClass;
 	private Unbinder mUnbinder;
+	private String colorCode;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +88,7 @@ public class EditClassActivity extends AppCompatActivity {
 		String classSubject = intent.getStringExtra(Constants.getEditClassSubjectKey());
 		long classNumber = intent.getLongExtra(Constants.getEditClassNumberKey(), 0);
 		selectedClass = ClassController.getClassController().getClass(classSubject, classNumber);
+		colorCode = selectedClass.getColorCode();
 	}
 
 	private void setViewNames(){
@@ -91,6 +96,7 @@ public class EditClassActivity extends AppCompatActivity {
 		subjectEditText.setText(selectedClass.getSubject());
 		classNumEditText.setText("" + selectedClass.getClassNumber());
 		teacherEditText.setText(selectedClass.getTeacher());
+		mColorPickerButton.setBackgroundColor(Color.parseColor(colorCode));
 	}
 
 	@OnClick(R.id.add_class_activity_floating_action_button)
@@ -101,6 +107,7 @@ public class EditClassActivity extends AppCompatActivity {
 		selectedClass.setSubject(subjectEditText.getText().toString());
 		selectedClass.setTeacher(teacherEditText.getText().toString());
 		selectedClass.setClassNumber(Long.parseLong(classNumEditText.getText().toString()));
+		selectedClass.setColorCode(colorCode);
 		realm.copyToRealmOrUpdate(selectedClass);
 		realm.commitTransaction();
 		onBackPressed();
@@ -110,5 +117,17 @@ public class EditClassActivity extends AppCompatActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 		mUnbinder.unbind();
+	}
+
+	@OnClick(R.id.add_class_activity_color_picker_button)
+	public void onClickColorPickerButton(){
+		ColorPickerDialog dialog = new ColorPickerDialog();
+		dialog.show(getSupportFragmentManager(), "Dialog");
+	}
+
+	@Override
+	public void onColorChosen(String colorCode) {
+		this.colorCode = colorCode;
+		mColorPickerButton.setBackgroundColor(Color.parseColor(colorCode));
 	}
 }
