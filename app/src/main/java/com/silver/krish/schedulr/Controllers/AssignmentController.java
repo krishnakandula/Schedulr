@@ -70,23 +70,23 @@ public class AssignmentController {
 	}
 
 	public void deleteAssignment(Assignment assignment){
+		final long assignmentId = assignment.getAssignmentId();
+
 		//Remove assignment from list
-		Iterator it = assignmentList.iterator();
+		Iterator<Assignment> it = getAssignmentList().listIterator();
 		while(it.hasNext()){
-			Assignment a = (Assignment)it.next();
-			if(a.getAssignmentId() == assignment.getAssignmentId()) {
+			if(it.next().getAssignmentId() == assignmentId)
 				it.remove();
-			}
 		}
+
 		//Remove assignment from DB
 		Realm mRealm = Realm.getDefaultInstance();
-		Assignment a = mRealm.where(Assignment.class).equalTo("assignmentId", assignment.getAssignmentId()).findFirst();
-		mRealm.beginTransaction();
-		a.deleteFromRealm();
-		mRealm.commitTransaction();
-	}
-
-	private void updateAssignmentsForClasses(){
-
+		mRealm.executeTransaction(new Realm.Transaction() {
+			@Override
+			public void execute(Realm realm) {
+				Assignment a = realm.where(Assignment.class).equalTo("assignmentId", assignmentId).findFirst();
+				a.deleteFromRealm();
+			}
+		});
 	}
 }

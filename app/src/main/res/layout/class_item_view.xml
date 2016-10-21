@@ -34,11 +34,18 @@
             android:textSize="20dp" />
 
         <View
+            android:id="@+id/class_item_color_view"
+            android:layout_alignParentRight="true"
+            android:layout_width="@dimen/color_circle_diameter"
+            android:layout_height="@dimen/color_circle_diameter"
+            android:src="@drawable/circle"/>
+        <View
             android:id="@+id/cardview_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/md_divider_black"
-            android:layout_below="@id/class_item_class_number_text_view"/>
+            android:layout_below="@id/class_item_class_number_text_view"
+            />
 
         <TextView
             android:id="@+id/class_item_view_title"

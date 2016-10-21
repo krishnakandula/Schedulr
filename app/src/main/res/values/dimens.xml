@@ -5,4 +5,6 @@
 
     <dimen name="grid_item_title_text_size">30sp</dimen>
     <dimen name="edit_text_input_margin">20dp</dimen>
+
+    <dimen name="color_circle_diameter">15dp</dimen>
 </resources>

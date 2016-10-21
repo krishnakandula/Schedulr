@@ -9,6 +9,7 @@ import com.silver.krish.schedulr.Models.Assignment;
 import com.silver.krish.schedulr.Models.Class;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import io.realm.Realm;
@@ -96,14 +97,15 @@ public class ClassController {
 	}
 
 	public boolean deleteClass(String subject, long classNumber){
-		mRealm.beginTransaction();
 		RealmResults<Class> results = mRealm.where(Class.class)
 				.equalTo("subject", subject)
 				.equalTo("classNumber", classNumber)
 				.findAll();
 
 		if (results.size() > 0){
-			results.deleteAllFromRealm();
+			deleteClassAssignments(results.get(0));
+			mRealm.beginTransaction();
+			results.deleteFirstFromRealm();
 			mRealm.commitTransaction();
 			return true;
 		} else {
@@ -112,6 +114,15 @@ public class ClassController {
 		}
 
 		//TODO: Delete assignments related to this class
+
+	}
+
+	private void deleteClassAssignments(Class c){
+		for(int i = 0; i < c.getAssignments().size(); i++){
+//			mRealm.beginTransaction();
+			AssignmentController.getAssignmentController().deleteAssignment(c.getAssignments().get(i));
+//			mRealm.commitTransaction();
+		}
 	}
 
 	public List<Class> getClassList(){

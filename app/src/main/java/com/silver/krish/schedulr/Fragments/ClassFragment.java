@@ -3,6 +3,11 @@ package com.silver.krish.schedulr.Fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.LightingColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -115,7 +121,7 @@ public class ClassFragment extends Fragment{
 		@BindView(R.id.class_item_subject_text_view) TextView mSubjectTextView;
 		@BindView(R.id.class_item_teacher_text_view) TextView mTeacherTextView;
 		@BindView(R.id.class_item_card_view) CardView mCardView;
-
+		@BindView(R.id.class_item_color_view) View mColorView;
 		private Class c;
 		private int position;
 		public ClassViewHolder(View itemView){
@@ -132,6 +138,7 @@ public class ClassFragment extends Fragment{
 			mClassNumberTextView.setText(String.format("%d", c.getClassNumber()));
 			mSubjectTextView.setText(c.getSubject());
 			mTeacherTextView.setText(c.getTeacher());
+			mColorView.setBackgroundColor(Color.parseColor(c.getColorCode()));
 			if(classItemViewIsSelected && position == classItemSelectedPosition){
 				mCardView.setBackgroundResource(R.color.cardview_shadow_start_color);
 			} else {
