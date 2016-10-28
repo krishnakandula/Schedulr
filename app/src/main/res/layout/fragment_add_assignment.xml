@@ -50,17 +50,16 @@
                         android:textSize="15sp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="50"
+                        android:layout_weight="30"
                         />
                     <Button
                         android:id="@+id/fragment_add_assignment_due_date_button"
                         android:gravity="center_vertical"
                         android:text="DATE_HERE"
                         android:layout_width="0dp"
-                        android:layout_weight="40"
+                        android:layout_weight="50"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/edit_text_input_margin"
-                        android:layout_marginRight="@dimen/edit_text_input_margin"
                         style="?android:attr/borderlessButtonStyle"/>
                 </LinearLayout>
                 <LinearLayout
@@ -77,19 +76,19 @@
                         android:textSize="15sp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="50"
+                        android:layout_weight="30"
                         android:layout_gravity="center_vertical"
                         />
+
                     <Spinner
                         android:id="@+id/fragment_add_assignment_class_spinner"
                         android:gravity="center_vertical|center_horizontal"
                         android:layout_width="0dp"
-                        android:layout_weight="40"
+                        android:layout_weight="50"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
+                        android:layout_gravity="center_vertical|end"
                         android:foregroundGravity="center"
-                        android:layout_marginLeft="@dimen/edit_text_input_margin"
-                        android:layout_marginRight="@dimen/edit_text_input_margin" />
+                        android:layout_marginLeft="@dimen/edit_text_input_margin"/>
                 </LinearLayout>
                 <LinearLayout
                     style="@style/AddFragmentAssignmentLinearLayout">
@@ -105,19 +104,19 @@
                         android:textSize="15sp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="50"
+                        android:layout_weight="30"
                         android:layout_gravity="center_vertical"
                         />
+
                     <Spinner
                         android:id="@+id/fragment_add_assignment_priority_spinner"
                         android:gravity="center_vertical|center_horizontal"
                         android:layout_width="0dp"
-                        android:layout_weight="40"
+                        android:layout_weight="50"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:foregroundGravity="center"
-                        android:layout_marginLeft="@dimen/edit_text_input_margin"
-                        android:layout_marginRight="@dimen/edit_text_input_margin" />
+                        android:layout_marginLeft="@dimen/edit_text_input_margin"/>
                 </LinearLayout>
             </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

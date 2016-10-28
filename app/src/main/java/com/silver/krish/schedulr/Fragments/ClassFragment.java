@@ -93,8 +93,7 @@ public class ClassFragment extends Fragment{
 
 	public class RecyclerViewAdapter extends RecyclerView.Adapter<ClassViewHolder>{
 
-		public RecyclerViewAdapter(){
-		}
+		public RecyclerViewAdapter(){}
 
 		@Override
 		public ClassViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

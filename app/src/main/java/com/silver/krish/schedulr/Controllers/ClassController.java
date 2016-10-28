@@ -112,17 +112,12 @@ public class ClassController {
 			mRealm.cancelTransaction();
 			return false;
 		}
-
-		//TODO: Delete assignments related to this class
-
 	}
 
 	private void deleteClassAssignments(Class c){
-		for(int i = 0; i < c.getAssignments().size(); i++){
-//			mRealm.beginTransaction();
+		//Don't change to for-each loop or use iterator
+		for(int i = 0; i < c.getAssignments().size(); i++)
 			AssignmentController.getAssignmentController().deleteAssignment(c.getAssignments().get(i));
-//			mRealm.commitTransaction();
-		}
 	}
 
 	public List<Class> getClassList(){
